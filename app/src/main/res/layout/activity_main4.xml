@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity4"
+    android:orientation="vertical"
+    android:background="@color/primaryColor">
+
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"></include>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <TextView
+            android:id="@+id/textView_date"
+            android:layout_width="147dp"
+            android:layout_height="32dp"
+            android:textSize="20dp"
+            android:hint="date" />
+
+        <TextView
+            android:id="@+id/textView_contenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView_date"
+            android:layout_marginTop="13dp"
+            android:hint="contenu"
+            android:textSize="23dp"
+            android:scrollbars="vertical"/>
+
+        <ImageView
+            android:id="@+id/image_imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView_contenu"
+            android:layout_marginTop="14dp"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <Button
+            android:id="@+id/testImgBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/image_imageView"
+            android:layout_marginTop="48dp"
+            android:text="Image" />
+
+    </RelativeLayout>
+
+
+
+</LinearLayout>

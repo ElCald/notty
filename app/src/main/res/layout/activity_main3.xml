@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity3"
+    android:orientation="vertical"
+    android:background="@color/primaryColor">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"></include>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <EditText
+            android:id="@+id/edit_titre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:gravity="top"
+            android:hint="Titre (15 char max)"
+            android:inputType="textPersonName"
+            android:maxLength="15"
+            android:textColor="@color/primaryTextColor" />
+
+        <EditText
+            android:id="@+id/edit_contenu"
+            android:layout_width="match_parent"
+            android:layout_height="295dp"
+            android:layout_below="@+id/edit_titre"
+            android:layout_weight="1"
+            android:ems="10"
+            android:gravity="top"
+            android:hint="Contenu"
+            android:textColor="@color/primaryTextColor" />
+
+        <EditText
+            android:id="@+id/edit_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edit_contenu"
+            android:layout_marginTop="3dp"
+            android:ems="10"
+            android:hint="Tag"
+            android:inputType="textPersonName"
+            android:textColor="@color/primaryTextColor" />
+
+
+        <Button
+            android:id="@+id/edit_lien"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edit_tag"
+            android:layout_marginStart="57dp"
+            android:layout_marginTop="22dp"
+            android:layout_toEndOf="@+id/textView_select_date"
+            android:ems="10"
+            android:text="Select Image" />
+
+        <TextView
+            android:id="@+id/textView_select_date"
+            android:layout_width="135dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edit_tag"
+            android:layout_marginTop="22dp"
+            android:text="Select date"
+            android:textAlignment="center"
+            style="@style/Widget.AppCompat.Button"
+            android:textSize="16dp" />
+
+        <ImageView
+            android:id="@+id/imageView_test"
+            android:layout_width="116dp"
+            android:layout_height="116dp"
+            android:layout_below="@+id/edit_lien"
+            android:layout_marginTop="10dp"
+            tools:src="@drawable/hiyaki" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true">
+
+            <Button
+                android:id="@+id/btn_ajouter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:text="Ajouter" />
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+
+</LinearLayout>
+

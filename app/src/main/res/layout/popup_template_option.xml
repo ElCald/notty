@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:background="@color/lightGray">
+
+    <TextView
+        android:id="@+id/text1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="defaut"
+        android:textSize="25dp"
+        android:textColor="@color/secondaryTextColor"
+        android:textAlignment="center" />
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/affiche"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/secondaryTextColor"
+                android:layout_weight="1"
+                android:textSize="16dp"
+                android:text="Affichage : "
+                android:layout_marginRight="5dp"/>
+
+            <Switch
+                android:id="@+id/switch_affiche"
+                android:layout_width="134dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primaryDarkColor"
+                android:textStyle="bold"
+                android:text="Jour/All"
+                android:textSize="16dp"
+                android:theme="@style/SCBSwitch"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="5dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/suppAuto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/affiche"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp">
+
+            <Switch
+                android:id="@+id/switch_suppDate"
+                android:layout_width="134dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Supprimer auto (jours)"
+                android:textAlignment="center"
+                android:textColor="@color/secondaryTextColor"
+                android:textSize="16dp"
+                android:theme="@style/SCBSwitch" />
+
+            <EditText
+                android:id="@+id/textView_select_dateSupp"
+                style="@style/Widget.AppCompat.Button"
+                android:layout_width="135dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:hint="Nombre de jour"
+                android:inputType="number"
+                android:textAlignment="center"
+                android:textSize="16dp" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_supprimer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/suppAuto"
+            android:layout_marginTop="15dp"
+            android:text="Tout supprimer"
+            android:backgroundTint="@color/danger"
+            android:textColor="@color/primaryTextColor"
+            android:layout_centerHorizontal="true"/>
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/OUIbouton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Valider"
+            android:layout_margin="10dp"
+            android:backgroundTint="@color/good"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/NONbouton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Annuler"
+            android:layout_margin="10dp"
+            android:textColor="@android:color/white" />
+
+    </LinearLayout>
+
+
+</LinearLayout>
