@@ -23,10 +23,22 @@
         android:id="@+id/id_note_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginHorizontal="10dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@id/id_btn_addNote"
+        app:layout_constraintTop_toBottomOf="@id/id_toolbar_main"
+        tools:layout_editor_absoluteX="10dp">
 
-        app:layout_constraintTop_toBottomOf="@id/id_toolbar_main"></LinearLayout>
+        <GridView
+            android:id="@+id/id_gridv_note"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:numColumns="2">
+
+
+        </GridView>
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/id_btn_addNote"
@@ -36,6 +48,15 @@
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/id_btn_delete"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Supprimer"
+        tools:layout_editor_absoluteX="321dp"
+        tools:layout_editor_absoluteY="871dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

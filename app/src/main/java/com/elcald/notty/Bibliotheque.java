@@ -1,0 +1,172 @@
+package com.elcald.notty;
+
+import android.content.Context;
+
+import androidx.annotation.NonNull;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Bibliotheque {
+
+    // attributs
+    private String jsonBib;
+    private List<Note> noteItemList;
+    private String version;
+    private int id_total;
+
+    private Context context;
+
+    private String notty_file_name;
+
+
+    // constructeur
+    public Bibliotheque(String json_file, Context context) throws JSONException, FileNotFoundException {
+        FileInputStream file_notes = null;
+        String temp_parse = " ";
+
+        this.notty_file_name = json_file;
+
+        this.context = context;
+
+        try {
+
+            file_notes = this.context.openFileInput(json_file);
+            InputStreamReader inputStream = new InputStreamReader(file_notes);
+            BufferedReader buffer = new BufferedReader(inputStream);
+            StringBuilder stringBuilder = new StringBuilder();
+
+            while( ( temp_parse = buffer.readLine() ) != null ){
+                stringBuilder.append(temp_parse).append("\n");
+            }
+
+            this.jsonBib = stringBuilder.toString();
+
+
+            if(file_notes!=null) // fermeture du fichier
+                file_notes.close();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
+
+        this.noteItemList = new ArrayList<>();
+
+
+        // parsing du json pour créer la liste et obtenir toutes les info
+
+        JSONObject buJSON = new JSONObject(this.jsonBib);
+        JSONArray notesJSON = buJSON.getJSONArray("notes");
+
+
+        this.version = buJSON.getString("version");
+        this.id_total = buJSON.getInt("id_total");
+
+
+        for (int i = 0; i < notesJSON.length(); i++) {
+
+            JSONObject noteJSON = notesJSON.getJSONObject(i);
+
+            int id = noteJSON.getInt("id");
+            String title = noteJSON.getString("title");
+            String content = noteJSON.getString("body");
+            String dateCreation = noteJSON.getString("dateCreation");
+            String dateModification = noteJSON.getString("dateModification");
+            String directory = noteJSON.getString("directory");
+            boolean favorite = noteJSON.getBoolean("favorite");
+
+            noteItemList.add(new Note(id, title, content, dateCreation, dateModification, directory, favorite));
+        }
+
+    }
+
+    // methodes
+
+    @NonNull
+    @Override
+    public String toString(){
+        StringBuilder contenuBibli = new StringBuilder();
+
+        contenuBibli.append("Version:").append(this.version).append("\n").append("id size:").append(this.id_total).append("\nNotes:\n");
+
+        for(int i=0; i< noteItemList.size(); i++){
+            contenuBibli.append(noteItemList.get(i).getTitle()).append("\n");
+        }
+
+        return contenuBibli.toString();
+    }
+
+    public void addNote(Note note){
+        noteItemList.add(note);
+        this.id_total++;
+    }
+
+    public Note getNote(int pos){
+        return noteItemList.get(pos);
+    }
+
+    public List<Note> get(){
+        return noteItemList;
+    }
+
+    public int getId_total(){ return this.id_total; }
+
+    // json
+    public JSONObject toJSON() throws JSONException {
+        JSONObject buJSON = new JSONObject();
+        JSONArray notesJSON = new JSONArray();
+
+        buJSON.put("version",this.version);
+        buJSON.put("id_total",this.id_total);
+
+
+        // creation de la liste JSON des notes
+
+        for(int i=0; i<noteItemList.size(); i++){
+            JSONObject noteJSON = new JSONObject();
+
+            noteJSON.put("id",noteItemList.get(i).getId());
+            noteJSON.put("title",noteItemList.get(i).getTitle());
+            noteJSON.put("body",noteItemList.get(i).getContent());
+            noteJSON.put("dateCreation",noteItemList.get(i).getDateCreation());
+            noteJSON.put("dateModification",noteItemList.get(i).getDateModification());
+            noteJSON.put("directory",noteItemList.get(i).getDirectory());
+            noteJSON.put("favorite",noteItemList.get(i).getFavorite());
+
+            notesJSON.put(noteJSON);
+        }
+
+
+        buJSON.put("notes",notesJSON);
+
+        return buJSON;
+    }
+
+    public void save_notty_file(){
+        try {
+
+            FileOutputStream nottyFile = this.context.openFileOutput(this.notty_file_name, Context.MODE_PRIVATE);
+
+            nottyFile.write(toJSON().toString().getBytes());
+
+            nottyFile.close();
+
+        } catch (IOException | JSONException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+}

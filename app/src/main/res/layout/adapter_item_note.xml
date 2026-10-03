@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/id_adapter_text_note_title"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:background="#D09A9A"
+        android:clickable="true"
+        android:gravity="center"
+        android:text="TextView"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+</LinearLayout>
