@@ -3,7 +3,6 @@ package com.elcald.notty;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -23,10 +22,10 @@ import java.time.format.DateTimeFormatter;
 
 public class CreateNoteActivity extends AppCompatActivity {
 
-    private final String FILENAME = "notty_save.txt";
     private Button btn_backHome;
     private Bibliotheque biblio;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +40,7 @@ public class CreateNoteActivity extends AppCompatActivity {
 
 
         try {
-            biblio = new Bibliotheque(FILENAME, this);
+            biblio = new Bibliotheque(this);
         } catch (JSONException | FileNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -49,34 +48,30 @@ public class CreateNoteActivity extends AppCompatActivity {
 
 
         // Bouton pour retourner au home et sauvegarder
-        this.btn_backHome = (Button)findViewById(R.id.id_btn_backHome);
+        this.btn_backHome = (Button)findViewById(R.id.id_create_btn_backHome);
         btn_backHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                EditText edit_title = findViewById(R.id.id_edit_title);
-                EditText edit_content = findViewById(R.id.id_edit_body);
+                EditText edit_title = findViewById(R.id.id_create_text_title);
+                EditText edit_content = findViewById(R.id.id_create_edit_body);
                 String title = String.valueOf(edit_title.getText());
                 String content = String.valueOf(edit_content.getText());
 
 
                 // Enregistrement dans le fichier json
                 // On vérifie que le titre ou le corps de la note n'est pas vide avant d'enregistrer
-                if( edit_title.length() > 0 || edit_content.length() > 0 || !title.equals(" ") || !content.equals(" ") ){
-
-                    // bon ça ne marche pas, faut trouver un moyer de ne pas sauvegarder de note vide
+                if(!title.trim().isEmpty() || !content.trim().isEmpty()){
 
 
+                    // à changer pour faire en sorte de créer la note à partir de la class biblio
                     LocalDateTime myDateObj = LocalDateTime.now();
                     DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                     String formattedDate = myDateObj.format(myFormatObj);
 
                     Note note = new Note(biblio.getId_total(), title, content, formattedDate);
                     biblio.addNote(note);
-
-                    biblio.save_notty_file();
                 }
-
 
 
 

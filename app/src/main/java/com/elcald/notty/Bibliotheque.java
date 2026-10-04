@@ -10,39 +10,69 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Bibliotheque {
 
     // attributs
-    private String jsonBib;
+
+    private final String FILENAME = "notty_save.txt";
+    private String jsonBib = ""; // Nom du fichier bdd
     private List<Note> noteItemList;
     private String version;
     private int id_total;
-
     private Context context;
-
-    private String notty_file_name;
 
 
     // constructeur
-    public Bibliotheque(String json_file, Context context) throws JSONException, FileNotFoundException {
+
+    /**
+     *
+     * @param context
+     * @throws JSONException
+     * @throws FileNotFoundException
+     */
+    public Bibliotheque(Context context) throws JSONException, FileNotFoundException {
         FileInputStream file_notes = null;
         String temp_parse = " ";
 
-        this.notty_file_name = json_file;
-
         this.context = context;
+
+
+
+        // Création du fichier bdd initiale s'il n'existe pas
+        File file = new File(context.getFilesDir(), FILENAME);
+        if(!file.exists())
+        {
+            try {
+                this.context.getDir(FILENAME, Context.MODE_PRIVATE);
+
+                JSONObject initFileJSON = new JSONObject("{ \"version\":\"1.0.0\", \"id_total\":0, \"notes\":[] }");
+
+                FileOutputStream initFile = this.context.openFileOutput(FILENAME, Context.MODE_PRIVATE);
+                initFile.write(initFileJSON.toString().getBytes());
+
+                initFile.close();
+
+            } catch (IOException | JSONException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+
 
         try {
 
-            file_notes = this.context.openFileInput(json_file);
+            file_notes = this.context.openFileInput(FILENAME);
             InputStreamReader inputStream = new InputStreamReader(file_notes);
             BufferedReader buffer = new BufferedReader(inputStream);
             StringBuilder stringBuilder = new StringBuilder();
@@ -103,26 +133,93 @@ public class Bibliotheque {
         contenuBibli.append("Version:").append(this.version).append("\n").append("id size:").append(this.id_total).append("\nNotes:\n");
 
         for(int i=0; i< noteItemList.size(); i++){
-            contenuBibli.append(noteItemList.get(i).getTitle()).append("\n");
+            contenuBibli.append(noteItemList.get(i).getTitle()).append(" | Date modif : ").append(noteItemList.get(i).getDateModification()).append("\n");
         }
 
         return contenuBibli.toString();
     }
 
+    /**
+     * Ajout d'une note à la liste et incrémente la nombre d'id_total
+     * @param note
+     */
     public void addNote(Note note){
         noteItemList.add(note);
         this.id_total++;
+        save_notty_file();
     }
 
-    public Note getNote(int pos){
-        return noteItemList.get(pos);
+
+    /**
+     *
+     * @param id Id de la note
+     * @return position de la note dans la liste de la bdd, sinon -1
+     */
+    public int getNotePos(int id){
+        for(int i=0; i<noteItemList.size(); i++){
+            if(noteItemList.get(i).getId() == id)
+                return i;
+        }
+
+        return -1;
     }
 
+    /**
+     *
+     * @param id Id de la note
+     * @return Note
+     */
+    public Note getNote(int id){
+        int i = getNotePos(id);
+
+        if(i != -1){
+            return noteItemList.get(i);
+        }
+        else {
+            return null;
+        }
+    }
+
+    /**
+     * Mise à jour de la note
+     * @param id id de la note
+     * @param title nouveau titre
+     * @param content nouveau contenu
+     */
+    public void updateNote(int id, String title, String content){
+        int i = getNotePos(id);
+
+        noteItemList.get(i).setTitle(title);
+        noteItemList.get(i).setContent(content);
+
+        LocalDateTime myDateObj = LocalDateTime.now();
+        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String formattedDate = myDateObj.format(myFormatObj);
+
+        noteItemList.get(i).setDateModification(formattedDate);
+
+        save_notty_file();
+    }
+
+    /**
+     *
+     * @return Liste de notes
+     */
     public List<Note> get(){
         return noteItemList;
     }
 
+    /**
+     *
+      * @return Nombre total d'id crée
+     */
     public int getId_total(){ return this.id_total; }
+
+    /**
+     *
+     * @return Nom du fichier Notty
+     */
+    public String getNomFichierNotty(){ return this.FILENAME; }
 
     // json
     public JSONObject toJSON() throws JSONException {
@@ -155,16 +252,34 @@ public class Bibliotheque {
         return buJSON;
     }
 
+    /**
+     * Enregistre les notes dans le fichier bdd
+     */
     public void save_notty_file(){
         try {
 
-            FileOutputStream nottyFile = this.context.openFileOutput(this.notty_file_name, Context.MODE_PRIVATE);
+            FileOutputStream nottyFile = this.context.openFileOutput(FILENAME, Context.MODE_PRIVATE);
 
             nottyFile.write(toJSON().toString().getBytes());
 
             nottyFile.close();
 
         } catch (IOException | JSONException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void delete_notty_file(){
+
+        JSONObject initFileJSON = null;
+        try {
+            initFileJSON = new JSONObject("{ \"version\":\"1.0.0\", \"id_total\":0, \"notes\":[] }");
+
+            FileOutputStream initFile = this.context.openFileOutput(FILENAME, Context.MODE_PRIVATE);
+            initFile.write(initFileJSON.toString().getBytes());
+
+            initFile.close();
+        } catch (JSONException | IOException e) {
             throw new RuntimeException(e);
         }
     }

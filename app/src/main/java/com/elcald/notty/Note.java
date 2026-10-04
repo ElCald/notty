@@ -1,6 +1,8 @@
 package com.elcald.notty;
 
-public class Note {
+import java.io.Serializable;
+
+public class Note implements Serializable {
     private final int id;
     private String title;
     private String content;

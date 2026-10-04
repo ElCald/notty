@@ -8,55 +8,63 @@
     tools:context=".MainActivity">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/id_toolbar_main"
+        android:id="@+id/id_home_toolbar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/id_home_note_container"
         app:layout_constraintTop_toTopOf="parent" />
 
 
     <LinearLayout
-        android:id="@+id/id_note_container"
+        android:id="@+id/id_home_note_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginHorizontal="10dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@id/id_btn_addNote"
-        app:layout_constraintTop_toBottomOf="@id/id_toolbar_main"
-        tools:layout_editor_absoluteX="10dp">
+        tools:layout_editor_absoluteX="10dp"
+        tools:layout_editor_absoluteY="64dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/id_home_toolbar"
+        app:layout_constraintBottom_toTopOf="@+id/id_home_btn_addNote" >
 
         <GridView
-            android:id="@+id/id_gridv_note"
+            android:id="@+id/id_home_gridv_note"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:numColumns="2">
-
+            android:layout_marginTop="5dp"
+            android:horizontalSpacing="5dp"
+            android:numColumns="2"
+            android:verticalSpacing="5dp">
 
         </GridView>
 
     </LinearLayout>
 
     <Button
-        android:id="@+id/id_btn_addNote"
+        android:id="@+id/id_home_btn_addNote"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/app_name"
         android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/id_home_note_container"
+        app:layout_constraintBottom_toTopOf="@+id/id_home_btn_delete"/>
 
     <Button
-        android:id="@+id/id_btn_delete"
+        android:id="@+id/id_home_btn_delete"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Supprimer"
-        tools:layout_editor_absoluteX="321dp"
-        tools:layout_editor_absoluteY="871dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/id_home_btn_addNote"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

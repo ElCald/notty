@@ -1,18 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_margin="10dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/id_adapter_text_note_title"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="10dp"
         android:background="#D09A9A"
         android:clickable="true"
+        android:focusable="true"
         android:gravity="center"
         android:text="TextView"
         android:textSize="24sp"
-        android:textStyle="bold" />
-</LinearLayout>
+        android:textStyle="bold"
+        android:padding="5dp"
+        android:onClick="onClick"/>
+
+</androidx.cardview.widget.CardView>

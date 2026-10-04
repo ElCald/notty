@@ -1,10 +1,14 @@
 package com.elcald.notty;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Point;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,7 +60,11 @@ public class NoteItemAdapter extends BaseAdapter {
 
         // info sur l'item
         Note currentItem = getItem(position);
+
         String itemTitle = currentItem.getTitle();
+        String itemBody = currentItem.getContent();
+
+        // vérifier si le titre est vide, auquel cas on mettra le corps pour le titre
 
         // à voir si ça marche vraiment
         WindowManager manager =  (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
@@ -68,9 +76,29 @@ public class NoteItemAdapter extends BaseAdapter {
         int width = point.x;
 
         TextView itemTitleView = convertView.findViewById(R.id.id_adapter_text_note_title);
-        itemTitleView.setText(itemTitle);
+
+        if(itemTitle.trim().isEmpty())
+            itemTitleView.setText(itemBody);
+        else
+            itemTitleView.setText(itemTitle);
+
         itemTitleView.setWidth( (width/2)-50 );
         itemTitleView.setHeight( (width/2)-50 );
+
+
+        // click sur une note pour l'ouvrir
+
+        itemTitleView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent readNoteActivity = new Intent(context.getApplicationContext(), ReadNoteActivity.class);
+                context.startActivity(readNoteActivity.putExtra("id_note", currentItem.getId()));
+                ((MainActivity)context).finish();
+            }
+        });
+
+
 
         return convertView;
     }

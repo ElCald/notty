@@ -27,7 +27,7 @@ import org.json.*;
 public class MainActivity extends AppCompatActivity {
 
 
-    private final String FILENAME = "notty_save.txt";
+
     private Button btn_addNote;
     private Button btn_delete;
 
@@ -46,33 +46,14 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-
-        // Création du fichier bdd initiale
-        File file = new File(getFilesDir(), FILENAME);
-        if(!file.exists())
-        {
-            try {
-                getDir(FILENAME, MODE_PRIVATE);
-
-                JSONObject initFileJSON = new JSONObject("{ \"version\":\"1.0.0\", \"id_total\":0, \"notes\":[] }");
-
-                FileOutputStream initFile = openFileOutput(FILENAME, MODE_PRIVATE);
-                initFile.write(initFileJSON.toString().getBytes());
-
-                initFile.close();
-
-            } catch (IOException | JSONException e) {
-                throw new RuntimeException(e);
-            }
-        }
-
-
-
+        // Création de la bibliothèque de notes
         try {
-            biblio = new Bibliotheque(FILENAME, this);
+            biblio = new Bibliotheque(this);
         } catch (JSONException | FileNotFoundException e) {
             throw new RuntimeException(e);
         }
+
+
 
         Log.d("nottyprint", biblio.toString());
 
@@ -93,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         // Bouton pour créer une note
-        this.btn_addNote = (Button)findViewById(R.id.id_btn_addNote);
+        this.btn_addNote = (Button)findViewById(R.id.id_home_btn_addNote);
         btn_addNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,21 +86,11 @@ public class MainActivity extends AppCompatActivity {
 
 
         // Bouton pour supprimer la bdd une note
-        this.btn_delete = (Button)findViewById(R.id.id_btn_delete);
+        this.btn_delete = (Button)findViewById(R.id.id_home_btn_delete);
         btn_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                JSONObject initFileJSON = null;
-                try {
-                    initFileJSON = new JSONObject("{ \"version\":\"1.0.0\", \"id_total\":0, \"notes\":[] }");
-
-                    FileOutputStream initFile = openFileOutput(FILENAME, MODE_PRIVATE);
-                    initFile.write(initFileJSON.toString().getBytes());
-
-                    initFile.close();
-                } catch (JSONException | IOException e) {
-                    throw new RuntimeException(e);
-                }
+                biblio.delete_notty_file();
 
                 Intent mainActivity = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(mainActivity);
@@ -129,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         // Récup la gridview et création des item dans le home
-        GridView noteGridView = findViewById(R.id.id_gridv_note);
+        GridView noteGridView = findViewById(R.id.id_home_gridv_note);
         noteGridView.setAdapter(new NoteItemAdapter(this, biblio.get()));
 
     }
