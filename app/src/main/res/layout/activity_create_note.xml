@@ -31,16 +31,23 @@
             android:inputType="text" />
     </LinearLayout>
 
-    <EditText
-        android:id="@+id/id_create_edit_body"
-        android:layout_width="match_parent"
+    <ScrollView
         android:layout_height="match_parent"
-        android:layout_marginTop="1dp"
-        android:ems="10"
-        android:gravity="top"
-        android:hint="Contenu"
-        android:inputType="textMultiLine"
-        android:scrollbars="vertical"
-        android:scrollHorizontally="false" />
+        android:layout_width="match_parent">
+
+        <EditText
+            android:id="@+id/id_create_edit_body"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="1dp"
+            android:ems="10"
+            android:gravity="top"
+            android:hint="Contenu"
+            android:inputType="textMultiLine"
+            android:scrollbars="vertical"
+            android:scrollHorizontally="false" />
+
+    </ScrollView>
+
 
 </LinearLayout>

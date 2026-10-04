@@ -62,15 +62,7 @@ public class CreateNoteActivity extends AppCompatActivity {
                 // Enregistrement dans le fichier json
                 // On vérifie que le titre ou le corps de la note n'est pas vide avant d'enregistrer
                 if(!title.trim().isEmpty() || !content.trim().isEmpty()){
-
-
-                    // à changer pour faire en sorte de créer la note à partir de la class biblio
-                    LocalDateTime myDateObj = LocalDateTime.now();
-                    DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                    String formattedDate = myDateObj.format(myFormatObj);
-
-                    Note note = new Note(biblio.getId_total(), title, content, formattedDate);
-                    biblio.addNote(note);
+                    biblio.createNote(title, content);
                 }
 
 

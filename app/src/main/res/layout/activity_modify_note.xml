@@ -10,37 +10,44 @@ android:gravity="center"
 android:orientation="vertical"
 tools:context=".ModifyNoteActivity">
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="70dp"
-    android:orientation="horizontal">
-
-    <Button
-        android:id="@+id/id_modify_btn_backHome"
-        android:layout_width="50dp"
-        android:layout_height="match_parent"
-        android:backgroundTint="#FF000000"
-        android:gravity="center" />
-
-    <EditText
-        android:id="@+id/id_modify_edit_title"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:ems="10"
-        android:hint="Titre"
-        android:inputType="text" />
-</LinearLayout>
+        android:layout_height="70dp"
+        android:orientation="horizontal">
 
-<EditText
-    android:id="@+id/id_modify_edit_body"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginTop="1dp"
-    android:ems="10"
-    android:gravity="top"
-    android:hint="Contenu"
-    android:inputType="textMultiLine"
-    android:scrollbars="vertical"
-    android:scrollHorizontally="false" />
+        <Button
+            android:id="@+id/id_modify_btn_backHome"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:backgroundTint="#FF000000"
+            android:gravity="center" />
+
+        <EditText
+            android:id="@+id/id_modify_edit_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:ems="10"
+            android:hint="Titre"
+            android:inputType="text" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
+
+        <EditText
+            android:id="@+id/id_modify_edit_body"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="1dp"
+            android:ems="10"
+            android:gravity="top"
+            android:hint="Contenu"
+            android:inputType="textMultiLine"
+            android:scrollbars="vertical"
+            android:scrollHorizontally="false"
+            android:fitsSystemWindows="true" />
+
+    </ScrollView>
 
 </LinearLayout>

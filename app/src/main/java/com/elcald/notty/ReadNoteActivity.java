@@ -3,6 +3,7 @@ package com.elcald.notty;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -56,6 +57,8 @@ public class ReadNoteActivity extends AppCompatActivity {
 
         this.btn_backHome = findViewById(R.id.id_read_btn_backHome);
         this.btn_modify = findViewById(R.id.id_read_btn_modify);
+
+//        this.body_field.setMovementMethod(new ScrollingMovementMethod());
 
 
         // Récup des données put en extra

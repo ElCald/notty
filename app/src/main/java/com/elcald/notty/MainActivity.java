@@ -11,6 +11,7 @@ import android.widget.GridView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Button btn_addNote;
     private Button btn_delete;
+    private Toolbar home_toolbare;
 
     private Bibliotheque biblio;
 
@@ -46,12 +48,20 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
+
+        // Gestion toolbar
+        home_toolbare = (Toolbar) findViewById(R.id.id_home_toolbar);
+        setSupportActionBar(home_toolbare);
+
+
         // Création de la bibliothèque de notes
         try {
             biblio = new Bibliotheque(this);
         } catch (JSONException | FileNotFoundException e) {
             throw new RuntimeException(e);
         }
+
+
 
 
 
@@ -86,17 +96,17 @@ public class MainActivity extends AppCompatActivity {
 
 
         // Bouton pour supprimer la bdd une note
-        this.btn_delete = (Button)findViewById(R.id.id_home_btn_delete);
-        btn_delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                biblio.delete_notty_file();
-
-                Intent mainActivity = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(mainActivity);
-                finish();
-            }
-        });
+//        this.btn_delete = (Button)findViewById(R.id.id_home_btn_delete);
+//        btn_delete.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                biblio.delete_notty_file();
+//
+//                Intent mainActivity = new Intent(getApplicationContext(), MainActivity.class);
+//                startActivity(mainActivity);
+//                finish();
+//            }
+//        });
 
 
         // Récup la gridview et création des item dans le home

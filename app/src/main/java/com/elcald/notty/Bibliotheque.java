@@ -140,7 +140,7 @@ public class Bibliotheque {
     }
 
     /**
-     * Ajout d'une note à la liste et incrémente la nombre d'id_total
+     * Ajout d'une note à la liste et incrémente la nombre d'id_total+ sauvegarde
      * @param note
      */
     public void addNote(Note note){
@@ -149,6 +149,21 @@ public class Bibliotheque {
         save_notty_file();
     }
 
+    /**
+     * Creation de la note et ajout dans la liste avec sauvegarde
+     * @param title
+     * @param content
+     */
+    public void createNote(String title, String content){
+
+        LocalDateTime myDateObj = LocalDateTime.now();
+        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String formattedDate = myDateObj.format(myFormatObj);
+
+        Note note = new Note(id_total, title, content, formattedDate);
+
+        addNote(note);
+    }
 
     /**
      *
@@ -199,6 +214,15 @@ public class Bibliotheque {
         noteItemList.get(i).setDateModification(formattedDate);
 
         save_notty_file();
+    }
+
+    /**
+     * Suppression d'une note selon son id
+      * @param id Id note
+     */
+    public void deleteNote(int id){
+        int i = getNotePos(id);
+        noteItemList.remove(i);
     }
 
     /**
