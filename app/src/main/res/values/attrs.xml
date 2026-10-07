@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <attr name="option_icon" format="reference"/>
+    <attr name="add_icon" format="reference"/>
+    <attr name="back_icon" format="reference"/>
+    <attr name="favorite_icon" format="reference"/>
+    <attr name="not_favorite_icon" format="reference"/>
+    <attr name="search_icon" format="reference"/>
+
+</resources>

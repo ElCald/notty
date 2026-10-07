@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    private Button btn_addNote;
+    private ImageView btn_addNote;
     private Button btn_delete;
     private Toolbar home_toolbare;
 
@@ -84,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         // Bouton pour créer une note
-        this.btn_addNote = (Button)findViewById(R.id.id_home_btn_addNote);
+        this.btn_addNote = (ImageView)findViewById(R.id.id_home_toolbar_btn_addNote);
         btn_addNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

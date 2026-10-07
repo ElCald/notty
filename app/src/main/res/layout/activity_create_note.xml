@@ -5,22 +5,24 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#00E60000"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".CreateNoteActivity">
+    tools:context=".CreateNoteActivity"
+    style="@style/stylePage">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:orientation="horizontal">
 
-        <Button
+        <ImageView
             android:id="@+id/id_create_btn_backHome"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:backgroundTint="#FF000000"
-            android:gravity="center" />
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_weight="0"
+            android:layout_margin="20dp"
+            android:layout_gravity="center"
+            style="@style/stylePageCreate_backBtn" />
 
         <EditText
             android:id="@+id/id_create_text_title"
@@ -28,7 +30,8 @@
             android:layout_height="match_parent"
             android:ems="10"
             android:hint="Titre"
-            android:inputType="text" />
+            android:inputType="text"
+            style="@style/stylePageCreate_edit"/>
     </LinearLayout>
 
     <ScrollView
@@ -38,14 +41,15 @@
         <EditText
             android:id="@+id/id_create_edit_body"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:layout_marginTop="1dp"
             android:ems="10"
             android:gravity="top"
             android:hint="Contenu"
             android:inputType="textMultiLine"
             android:scrollbars="vertical"
-            android:scrollHorizontally="false" />
+            android:scrollHorizontally="false"
+            style="@style/stylePageCreate_edit"/>
 
     </ScrollView>
 

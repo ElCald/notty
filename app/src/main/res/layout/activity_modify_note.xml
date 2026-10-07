@@ -5,9 +5,9 @@ xmlns:tools="http://schemas.android.com/tools"
 android:id="@+id/main"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
-android:background="#00E60000"
 android:gravity="center"
 android:orientation="vertical"
+    style="@style/stylePage"
 tools:context=".ModifyNoteActivity">
 
     <LinearLayout
@@ -15,12 +15,14 @@ tools:context=".ModifyNoteActivity">
         android:layout_height="70dp"
         android:orientation="horizontal">
 
-        <Button
+        <ImageView
             android:id="@+id/id_modify_btn_backHome"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:backgroundTint="#FF000000"
-            android:gravity="center" />
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_weight="0"
+            android:layout_gravity="center"
+            android:layout_margin="20dp"
+            style="@style/stylePageCreate_backBtn" />
 
         <EditText
             android:id="@+id/id_modify_edit_title"
@@ -28,7 +30,8 @@ tools:context=".ModifyNoteActivity">
             android:layout_height="match_parent"
             android:ems="10"
             android:hint="Titre"
-            android:inputType="text" />
+            android:inputType="text"
+            style="@style/stylePageCreate_edit"/>
     </LinearLayout>
 
     <ScrollView
@@ -46,7 +49,8 @@ tools:context=".ModifyNoteActivity">
             android:inputType="textMultiLine"
             android:scrollbars="vertical"
             android:scrollHorizontally="false"
-            android:fitsSystemWindows="true" />
+            android:fitsSystemWindows="true"
+            style="@style/stylePageCreate_edit"/>
 
     </ScrollView>
 

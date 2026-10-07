@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">Notty</string>
+    <string name="app_name" translatable="false">Notty</string>
+    <string name="title_note">Title</string>
+    <string name="body_note">Content</string>
 </resources>

@@ -6,20 +6,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ReadNoteActivity">
+    tools:context=".ReadNoteActivity"
+    style="@style/stylePage">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:orientation="horizontal">
 
-        <Button
+        <ImageView
             android:id="@+id/id_read_btn_backHome"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_weight="0"
-            android:backgroundTint="#FF000000"
-            android:gravity="center" />
+            android:layout_gravity="center"
+            android:layout_margin="20dp"
+            style="@style/stylePageRead_BackBtn" />
 
         <TextView
             android:id="@+id/id_read_text_title"
@@ -27,16 +29,20 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:ems="10"
+            android:gravity="center"
             android:text="Titre"
-            android:gravity="center" />
+            android:textSize="20sp"
+            android:textStyle="bold"
+            style="@style/stylePageRead_Title"/>
 
-        <Button
+        <ImageView
             android:id="@+id/id_read_btn_modify"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_weight="0"
-            android:backgroundTint="#620A0A"
-            android:gravity="center" />
+            android:layout_gravity="center"
+            android:layout_margin="20dp"
+            style="@style/stylePageRead_ModifyBtn" />
     </LinearLayout>
 
     <TextView
@@ -44,12 +50,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="01/01/1990"
-        android:textAlignment="textEnd" />
+        android:textAlignment="textEnd"
+        style="@style/stylePageRead_Date"/>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginHorizontal="10dp">
+        android:layout_marginHorizontal="15dp">
 
         <TextView
             android:id="@+id/id_read_text_body"
@@ -59,7 +66,8 @@
             android:gravity="top"
             android:scrollbars="vertical"
             android:text="Contenu"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            style="@style/stylePageRead_Content"/>
 
     </ScrollView>
 

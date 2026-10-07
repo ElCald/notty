@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,7 +26,7 @@ public class ModifyNoteActivity extends AppCompatActivity {
     private EditText edit_title = null;
     private EditText edit_body = null;
 
-    private Button btn_backHome = null;
+    private ImageView btn_backHome = null;
 
     private Bibliotheque biblio = null;
 

@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,7 +23,7 @@ import java.time.format.DateTimeFormatter;
 
 public class CreateNoteActivity extends AppCompatActivity {
 
-    private Button btn_backHome;
+    private ImageView btn_backHome;
     private Bibliotheque biblio;
 
     @SuppressLint("MissingInflatedId")
@@ -48,7 +49,7 @@ public class CreateNoteActivity extends AppCompatActivity {
 
 
         // Bouton pour retourner au home et sauvegarder
-        this.btn_backHome = (Button)findViewById(R.id.id_create_btn_backHome);
+        this.btn_backHome = findViewById(R.id.id_create_btn_backHome);
         btn_backHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

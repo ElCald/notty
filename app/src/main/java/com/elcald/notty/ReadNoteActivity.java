@@ -7,6 +7,7 @@ import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -26,8 +27,8 @@ public class ReadNoteActivity extends AppCompatActivity {
     private TextView title_field = null;
     private TextView body_field = null;
     private TextView dateModif_field = null;
-    private Button btn_backHome = null;
-    private Button btn_modify = null;
+    private ImageView btn_backHome = null;
+    private ImageView btn_modify = null;
 
     private Bibliotheque biblio = null;
 

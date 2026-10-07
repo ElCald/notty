@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:background="@color/material_dynamic_neutral_variant10">
+    style="@style/stylePage">
 
 
     <include
@@ -15,7 +15,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/id_home_note_container"></include>
+        app:layout_constraintBottom_toTopOf="@+id/id_home_note_container"/>
 
 
     <LinearLayout
@@ -29,7 +29,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/id_home_toolbar"
-        app:layout_constraintBottom_toTopOf="@+id/id_home_btn_addNote" >
+        app:layout_constraintBottom_toTopOf="@+id/id_home_footbar" >
 
         <GridView
             android:id="@+id/id_home_gridv_note"
@@ -44,16 +44,15 @@
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/id_home_btn_addNote"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/app_name"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/id_home_note_container" />
 
+    <include
+        android:id="@+id/id_home_footbar"
+        layout="@layout/footbar_home"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/id_home_note_container"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
