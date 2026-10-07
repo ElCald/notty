@@ -23,6 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="10dp"
         android:orientation="vertical"
         tools:layout_editor_absoluteX="10dp"
         tools:layout_editor_absoluteY="64dp"
@@ -35,10 +36,10 @@
             android:id="@+id/id_home_gridv_note"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="5dp"
-            android:horizontalSpacing="5dp"
+            android:horizontalSpacing="20dp"
+            android:verticalSpacing="20dp"
             android:numColumns="2"
-            android:verticalSpacing="5dp">
+            >
 
         </GridView>
 
@@ -49,7 +50,7 @@
         android:id="@+id/id_home_footbar"
         layout="@layout/footbar_home"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/id_home_note_container"

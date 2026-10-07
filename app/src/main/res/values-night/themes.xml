@@ -61,7 +61,7 @@
 
 
     <style name="stylePageCreate_backBtn">
-        <item name="android:src">@drawable/left_arrow_white</item>
+        <item name="android:src">@drawable/left_arrow_grey</item>
     </style>
 
     <style name="stylePageCreate_edit">
@@ -83,11 +83,11 @@
     </style>
 
     <style name="stylePageRead_BackBtn">
-        <item name="android:src">@drawable/left_arrow_white</item>
+        <item name="android:src">@drawable/left_arrow_grey</item>
     </style>
 
     <style name="stylePageRead_ModifyBtn">
-        <item name="android:src">@drawable/crayon_white</item>
+        <item name="android:src">@drawable/crayon_grey</item>
     </style>
 
 </resources>
