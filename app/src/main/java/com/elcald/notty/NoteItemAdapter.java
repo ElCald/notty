@@ -82,8 +82,8 @@ public class NoteItemAdapter extends BaseAdapter {
         else
             itemTitleView.setText(itemTitle);
 
-        itemTitleView.setWidth( (width/2)-50 );
-        itemTitleView.setHeight( (width/2)-50 );
+        itemTitleView.setWidth( width/2 );
+        itemTitleView.setHeight( width/2 );
 
 
         // click sur une note pour l'ouvrir

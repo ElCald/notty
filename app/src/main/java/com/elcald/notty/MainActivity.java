@@ -6,11 +6,13 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
@@ -22,6 +24,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Objects;
 
 import org.json.*;
 
@@ -50,8 +53,10 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+
         // Gestion toolbar
         home_toolbare = (Toolbar) findViewById(R.id.id_home_toolbar);
+        home_toolbare.setTitle("");
         setSupportActionBar(home_toolbare);
 
 
@@ -61,8 +66,6 @@ public class MainActivity extends AppCompatActivity {
         } catch (JSONException | FileNotFoundException e) {
             throw new RuntimeException(e);
         }
-
-
 
 
 

@@ -31,6 +31,7 @@ public class Bibliotheque {
     private String version;
     private int id_total;
     private Context context;
+    private String hashPassword;
 
 
     // constructeur
@@ -53,19 +54,7 @@ public class Bibliotheque {
         File file = new File(context.getFilesDir(), FILENAME);
         if(!file.exists())
         {
-            try {
-                this.context.getDir(FILENAME, Context.MODE_PRIVATE);
-
-                JSONObject initFileJSON = new JSONObject("{ \"version\":\"1.0.0\", \"id_total\":0, \"notes\":[] }");
-
-                FileOutputStream initFile = this.context.openFileOutput(FILENAME, Context.MODE_PRIVATE);
-                initFile.write(initFileJSON.toString().getBytes());
-
-                initFile.close();
-
-            } catch (IOException | JSONException e) {
-                throw new RuntimeException(e);
-            }
+            delete_notty_file();
         }
 
 
@@ -103,6 +92,7 @@ public class Bibliotheque {
 
 
         this.version = buJSON.getString("version");
+        this.hashPassword = buJSON.getString("hashPassword");
         this.id_total = buJSON.getInt("id_total");
 
 
@@ -117,8 +107,9 @@ public class Bibliotheque {
             String dateModification = noteJSON.getString("dateModification");
             String directory = noteJSON.getString("directory");
             boolean favorite = noteJSON.getBoolean("favorite");
+            boolean is_locked = noteJSON.getBoolean("is_locked");
 
-            noteItemList.add(new Note(id, title, content, dateCreation, dateModification, directory, favorite));
+            noteItemList.add(new Note(id, title, content, dateCreation, dateModification, directory, favorite, is_locked));
         }
 
     }
@@ -135,6 +126,8 @@ public class Bibliotheque {
         for(int i=0; i< noteItemList.size(); i++){
             contenuBibli.append(noteItemList.get(i).getTitle()).append(" | Date modif : ").append(noteItemList.get(i).getDateModification()).append("\n");
         }
+
+        contenuBibli.append("hash:").append(this.hashPassword).append("\n");
 
         return contenuBibli.toString();
     }
@@ -217,6 +210,16 @@ public class Bibliotheque {
     }
 
     /**
+     * Inverse le verrou de la note
+     * @param id
+     */
+    public void swapLock(int id){
+        int i = getNotePos(id);
+        noteItemList.get(i).swapLock();
+        save_notty_file();
+    }
+
+    /**
      * Suppression d'une note selon son id
       * @param id Id note
      */
@@ -252,6 +255,7 @@ public class Bibliotheque {
 
         buJSON.put("version",this.version);
         buJSON.put("id_total",this.id_total);
+        buJSON.put("hashPassword",this.hashPassword);
 
 
         // creation de la liste JSON des notes
@@ -266,6 +270,7 @@ public class Bibliotheque {
             noteJSON.put("dateModification",noteItemList.get(i).getDateModification());
             noteJSON.put("directory",noteItemList.get(i).getDirectory());
             noteJSON.put("favorite",noteItemList.get(i).getFavorite());
+            noteJSON.put("is_locked",noteItemList.get(i).getIsLocked());
 
             notesJSON.put(noteJSON);
         }
@@ -295,9 +300,11 @@ public class Bibliotheque {
 
     public void delete_notty_file(){
 
+        this.context.getDir(FILENAME, Context.MODE_PRIVATE);
+
         JSONObject initFileJSON = null;
         try {
-            initFileJSON = new JSONObject("{ \"version\":\"1.0.0\", \"id_total\":0, \"notes\":[] }");
+            initFileJSON = new JSONObject("{ \"version\":\"1.0.0\", \"id_total\":0, \"hashPassword\":\"default\", \"notes\":[] }");
 
             FileOutputStream initFile = this.context.openFileOutput(FILENAME, Context.MODE_PRIVATE);
             initFile.write(initFileJSON.toString().getBytes());

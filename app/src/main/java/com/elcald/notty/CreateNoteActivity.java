@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -73,5 +74,37 @@ public class CreateNoteActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        // bouton retour du téléphone
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                // Mettez ici votre action personnalisée
+                // Par exemple : afficher un message, valider un formulaire, ou quitter l'activité autrement
+
+                EditText edit_title = findViewById(R.id.id_create_text_title);
+                EditText edit_content = findViewById(R.id.id_create_edit_body);
+                String title = String.valueOf(edit_title.getText());
+                String content = String.valueOf(edit_content.getText());
+
+
+                // Enregistrement dans le fichier json
+                // On vérifie que le titre ou le corps de la note n'est pas vide avant d'enregistrer
+                if(!title.trim().isEmpty() || !content.trim().isEmpty()){
+                    biblio.createNote(title, content);
+                }
+
+
+                Intent mainActivity = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(mainActivity);
+                finish();
+
+                // Si vous voulez désactiver temporairement ou laisser faire le retour par défaut :
+                // this.setEnabled(false);
+                // getOnBackPressedDispatcher().onBackPressed();
+            }
+        });
+
+
     }
 }

@@ -8,9 +8,9 @@ public class Note implements Serializable {
     private String content;
     private final String dateCreation;
     private String dateModification;
-
     private String directory;
     private boolean favorite;
+    private boolean is_locked;
 
 
     // constructeur
@@ -23,6 +23,7 @@ public class Note implements Serializable {
         this.dateModification = "01/01/1990";
         this.directory = "undefined";
         this.favorite = false;
+        this.is_locked = false;
     }
 
     public Note(int id, String title, String content, String dateCreation){
@@ -33,9 +34,10 @@ public class Note implements Serializable {
         this.dateModification = dateCreation;
         this.directory = "undefined";
         this.favorite = false;
+        this.is_locked = false;
     }
 
-    public Note(int id, String title, String content, String dateCreation, String dateModification, String directory, boolean favorite){
+    public Note(int id, String title, String content, String dateCreation, String dateModification, String directory, boolean favorite, boolean is_locked){
         this.id = id;
         this.title = title;
         this.content = content;
@@ -43,6 +45,7 @@ public class Note implements Serializable {
         this.dateModification = dateModification;
         this.directory = directory;
         this.favorite = favorite;
+        this.is_locked = is_locked;
     }
 
 
@@ -56,6 +59,7 @@ public class Note implements Serializable {
     public String getDateModification() { return dateModification; }
     public String getDirectory() { return directory; }
     public boolean getFavorite() { return favorite; }
+    public boolean getIsLocked() { return is_locked; }
 
 
     public void setTitle(String title) { this.title = title; }
@@ -63,5 +67,8 @@ public class Note implements Serializable {
     public void setDateModification(String dateModification) { this.dateModification = dateModification; }
     public void setDirectory(String directory) { this.directory = directory; }
     public void setFavorite(boolean favorite) { this.favorite = favorite; }
+    public void lock() { this.is_locked = true; }
+    public void unlock() { this.is_locked = false; }
+    public void swapLock() { this.is_locked = !this.is_locked; }
 
 }

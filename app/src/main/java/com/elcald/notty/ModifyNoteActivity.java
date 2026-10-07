@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -82,6 +83,26 @@ public class ModifyNoteActivity extends AppCompatActivity {
                     }
 
                 }
+            }
+        });
+
+        // bouton retour du téléphone
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+
+                if(intent.getExtras() != null) {
+                    if(id_note != -1){
+
+                        biblio.updateNote(id_note, edit_title.getText().toString(), edit_body.getText().toString());
+                        biblio.save_notty_file();
+                        Intent readNoteActivity = new Intent(getApplicationContext(), ReadNoteActivity.class);
+                        startActivity(readNoteActivity.putExtra("id_note", id_note));
+                        finish();
+                    }
+
+                }
+
             }
         });
     }

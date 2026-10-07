@@ -1,57 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:id="@+id/main"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:gravity="center"
-android:orientation="vertical"
-    style="@style/stylePage"
-tools:context=".ModifyNoteActivity">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ModifyNoteActivity"
+    style="@style/stylePage">
 
     <LinearLayout
+        android:id="@+id/id_modify_linearLayout"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/id_modify_btn_backHome"
+            style="@style/stylePageCreate_backBtn"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:layout_weight="0"
             android:layout_gravity="center"
             android:layout_margin="20dp"
-            style="@style/stylePageCreate_backBtn" />
+            android:layout_weight="0" />
 
         <EditText
             android:id="@+id/id_modify_edit_title"
+            style="@style/stylePageCreate_edit"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:ems="10"
             android:hint="Titre"
-            android:inputType="text"
-            style="@style/stylePageCreate_edit"/>
+            android:inputType="text" />
     </LinearLayout>
 
     <ScrollView
-        android:layout_height="match_parent"
-        android:layout_width="match_parent">
+        android:id="@+id/id_modify_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginBottom="15dp"
+        android:fillViewport="true"
+        android:fitsSystemWindows="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/id_modify_linearLayout">
 
         <EditText
             android:id="@+id/id_modify_edit_body"
+            style="@style/stylePageCreate_edit"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="10dp"
             android:ems="10"
             android:gravity="top"
             android:hint="Contenu"
             android:inputType="textMultiLine"
             android:scrollbars="vertical"
-            android:scrollHorizontally="false"
-            android:fitsSystemWindows="true"
-            style="@style/stylePageCreate_edit"/>
+            android:scrollHorizontally="false" />
 
     </ScrollView>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

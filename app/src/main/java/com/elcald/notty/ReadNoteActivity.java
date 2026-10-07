@@ -8,9 +8,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -29,6 +32,8 @@ public class ReadNoteActivity extends AppCompatActivity {
     private TextView dateModif_field = null;
     private ImageView btn_backHome = null;
     private ImageView btn_modify = null;
+    private ScrollView scrollView_content = null;
+    private LinearLayout main_layout = null;
 
     private Bibliotheque biblio = null;
 
@@ -38,7 +43,7 @@ public class ReadNoteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_read_note);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.id_read_main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
@@ -59,7 +64,9 @@ public class ReadNoteActivity extends AppCompatActivity {
         this.btn_backHome = findViewById(R.id.id_read_btn_backHome);
         this.btn_modify = findViewById(R.id.id_read_btn_modify);
 
-//        this.body_field.setMovementMethod(new ScrollingMovementMethod());
+        this.scrollView_content = findViewById(R.id.id_read_scroll);
+        this.main_layout = findViewById(R.id.id_read_main);
+
 
 
         // Récup des données put en extra
@@ -106,5 +113,42 @@ public class ReadNoteActivity extends AppCompatActivity {
         });
 
 
+        body_field.setOnClickListener(new DoubleClickListener() {
+
+            @Override
+            public void onSingleClick(View v) {
+
+            }
+
+            @Override
+            public void onDoubleClick(View v) {
+                if(intent.getExtras() != null) {
+                    if(id_note != -1){
+                        Intent modifyNoteActivity = new Intent(getApplicationContext(), ModifyNoteActivity.class);
+                        startActivity(modifyNoteActivity.putExtra("id_note", id_note));
+                        finish(); // on le finish pour le réouvrir proprement après
+                    }
+
+                }
+            }
+        });
+
+
+
+        // bouton retour du téléphone
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                Intent mainActivity = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(mainActivity);
+                finish();
+            }
+        });
+
+
     }
 }
+
+
+// Source - https://stackoverflow.com/a/30775598
+
