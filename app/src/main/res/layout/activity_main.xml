@@ -3,19 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
+    style="@style/stylePage"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    style="@style/stylePage">
+    tools:context=".MainActivity">
 
 
     <include
         android:id="@+id/id_home_toolbar"
         layout="@layout/toolbar_home"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/id_home_note_container"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/id_home_note_container"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <LinearLayout
@@ -23,26 +23,51 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginVertical="10dp"
         android:orientation="vertical"
-        tools:layout_editor_absoluteX="10dp"
-        tools:layout_editor_absoluteY="64dp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/id_home_footbar"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/id_home_toolbar"
-        app:layout_constraintBottom_toTopOf="@+id/id_home_footbar" >
+        tools:layout_editor_absoluteX="10dp"
+        tools:layout_editor_absoluteY="64dp">
 
         <GridView
             android:id="@+id/id_home_gridv_note"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:horizontalSpacing="30dp"
-            android:verticalSpacing="30dp"
-            android:numColumns="2">
+            android:numColumns="2"
+            android:scrollbarStyle="outsideInset"
+            android:scrollbars="none"
+            android:smoothScrollbar="true"
+            android:verticalSpacing="30dp">
 
         </GridView>
 
     </LinearLayout>
+
+    <include
+        android:id="@+id/id_home_options"
+        layout="@layout/options_home"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <include
+        android:id="@+id/id_home_options_sortlist"
+        layout="@layout/options_home_sortlist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
     <include
@@ -50,9 +75,9 @@
         layout="@layout/footbar_home"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/id_home_note_container"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/id_home_note_container" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

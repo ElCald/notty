@@ -12,7 +12,8 @@
     <LinearLayout
         android:id="@+id/id_modify_linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="60dp"
+        android:gravity="top"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,7 +26,8 @@
             android:layout_height="25dp"
             android:layout_gravity="center"
             android:layout_margin="20dp"
-            android:layout_weight="0" />
+            android:layout_weight="0"
+            android:src="@drawable/fleche" />
 
         <EditText
             android:id="@+id/id_modify_edit_title"
@@ -39,16 +41,15 @@
 
     <ScrollView
         android:id="@+id/id_modify_scroll"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_alignParentBottom="true"
         android:layout_marginHorizontal="10dp"
-        android:layout_marginBottom="15dp"
+        android:layout_marginBottom="10dp"
         android:fillViewport="true"
-        android:fitsSystemWindows="true"
+        android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="parent"
-        app:layout_constraintStart_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/id_modify_linearLayout">
 
         <EditText
@@ -57,12 +58,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:ems="10"
-            android:gravity="top"
+            android:gravity="top|start"
             android:hint="Contenu"
-            android:inputType="textMultiLine"
+            android:inputType="textMultiLine|textCapSentences"
             android:scrollbars="vertical"
             android:scrollHorizontally="false" />
 
     </ScrollView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

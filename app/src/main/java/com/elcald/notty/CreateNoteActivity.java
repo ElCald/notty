@@ -35,8 +35,13 @@ public class CreateNoteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_note);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
+            Insets ime = insets.getInsets(WindowInsetsCompat.Type.ime());
+
+            // Le bas = clavier s'il est affiché, sinon barre de navigation
+            int bottom = Math.max(systemBars.bottom, ime.bottom);
+
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, bottom);
+            return WindowInsetsCompat.CONSUMED;
         });
 
 

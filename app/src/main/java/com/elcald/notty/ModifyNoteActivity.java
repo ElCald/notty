@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
@@ -27,6 +28,8 @@ public class ModifyNoteActivity extends AppCompatActivity {
     private EditText edit_title = null;
     private EditText edit_body = null;
 
+    private ScrollView scroll_body = null;
+
     private ImageView btn_backHome = null;
 
     private Bibliotheque biblio = null;
@@ -39,13 +42,19 @@ public class ModifyNoteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_modify_note);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
+            Insets ime = insets.getInsets(WindowInsetsCompat.Type.ime());
+
+            // Le bas = clavier s'il est affiché, sinon barre de navigation
+            int bottom = Math.max(systemBars.bottom, ime.bottom);
+
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, bottom);
+            return WindowInsetsCompat.CONSUMED;
         });
 
         // récup champs xml
         edit_title = findViewById(R.id.id_modify_edit_title);
         edit_body = findViewById(R.id.id_modify_edit_body);
+        scroll_body = findViewById(R.id.id_modify_scroll);
 
         btn_backHome = findViewById(R.id.id_modify_btn_backHome);
 
@@ -105,5 +114,7 @@ public class ModifyNoteActivity extends AppCompatActivity {
 
             }
         });
+
+
     }
 }

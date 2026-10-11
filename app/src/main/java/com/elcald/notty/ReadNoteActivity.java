@@ -78,7 +78,7 @@ public class ReadNoteActivity extends AppCompatActivity {
             note = biblio.getNote(id_note);
             title_field.setText(note.getTitle());
             body_field.setText(note.getContent());
-            dateModif_field.setText(note.getDateModification());
+            dateModif_field.setText(note.getDateModificationShort());
         }
         else{
             id_note = -1;
@@ -148,7 +148,3 @@ public class ReadNoteActivity extends AppCompatActivity {
 
     }
 }
-
-
-// Source - https://stackoverflow.com/a/30775598
-

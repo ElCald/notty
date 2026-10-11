@@ -12,12 +12,13 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/contraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="50dp"
         android:orientation="horizontal"
         android:paddingVertical="12dp">
 
         <ImageView
             android:id="@+id/id_read_btn_backHome"
+            android:src="@drawable/fleche"
             style="@style/stylePageRead_BackBtn"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
@@ -29,6 +30,7 @@
         <ImageView
             android:id="@+id/id_read_btn_modify"
             style="@style/stylePageRead_ModifyBtn"
+            android:src="@drawable/modifier"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
@@ -38,7 +40,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="10dp">
 
         <TextView
             android:id="@+id/id_read_text_Directory"
@@ -46,7 +49,7 @@
             android:layout_height="wrap_content"
             android:text="Directory"
             app:layout_constraintStart_toStartOf="parent"
-            style="@style/stylePageRead_Date"/>
+            style="@style/stylePageRead_Directory"/>
 
         <TextView
             android:id="@+id/id_read_text_dateModif"

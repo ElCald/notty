@@ -3,12 +3,13 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="light_grey">#494343</color>
-    <color name="grey">#2C2A29</color>
-    <color name="dark_grey">#232121</color>
+    <color name="light_grey">#2E2B2B</color>
+    <color name="grey">#232121</color>
+    <color name="dark_grey">#1A1818</color>
     <color name="yellow">#F2C46A</color>
     <color name="green">#AEAC78</color>
     <color name="blue">#7880AE</color>
+    <color name="light_cream">#FFF8ED</color>
     <color name="cream">#FCF0DA</color>
     <color name="dark_cream">#D9C9AC</color>
 

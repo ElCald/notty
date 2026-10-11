@@ -15,7 +15,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -25,8 +27,7 @@ public class NoteItemAdapter extends BaseAdapter {
     private Context context;
     private List<Note> noteItemList;
     private LayoutInflater inflater;
-   /* private int tile_width;
-    private int tile_height;*/
+
 
     // constructeur
     public NoteItemAdapter(Context context, List<Note> noteItemList/*, int tile_width, int tile_height*/){
@@ -63,6 +64,9 @@ public class NoteItemAdapter extends BaseAdapter {
 
         String itemTitle = currentItem.getTitle();
         String itemBody = currentItem.getContent();
+        String itemDirectory = currentItem.getDirectory();
+        boolean itemLocker = currentItem.getIsLocked();
+        boolean itemFav = currentItem.getFavorite();
 
         // vérifier si le titre est vide, auquel cas on mettra le corps pour le titre
 
@@ -76,6 +80,9 @@ public class NoteItemAdapter extends BaseAdapter {
         int width = point.x;
 
         TextView itemTitleView = convertView.findViewById(R.id.id_adapter_text_note_title);
+        ImageView itemTileFav = convertView.findViewById(R.id.id_adapter_text_note_fav);
+        ImageView itemTileLocker = convertView.findViewById(R.id.id_adapter_text_note_tile_locker);
+        TextView itemTileDirectory = convertView.findViewById(R.id.id_adapter_text_note_directory);
 
         if(itemTitle.trim().isEmpty())
             itemTitleView.setText(itemBody);
@@ -84,6 +91,20 @@ public class NoteItemAdapter extends BaseAdapter {
 
         itemTitleView.setWidth( width/2 );
         itemTitleView.setHeight( width/2 );
+
+
+        if(itemLocker){
+            itemTileLocker.setVisibility(View.VISIBLE);
+        }
+
+        if(itemFav){
+            itemTileFav.setVisibility(View.VISIBLE);
+        }
+
+        if(!itemDirectory.trim().isEmpty()){
+            itemTileDirectory.setVisibility(View.VISIBLE);
+            itemTileDirectory.setText(itemDirectory);
+        }
 
 
         // click sur une note pour l'ouvrir
@@ -95,6 +116,17 @@ public class NoteItemAdapter extends BaseAdapter {
                 Intent readNoteActivity = new Intent(context.getApplicationContext(), ReadNoteActivity.class);
                 context.startActivity(readNoteActivity.putExtra("id_note", currentItem.getId()));
                 ((MainActivity)context).finish();
+            }
+        });
+
+        itemTitleView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Toast toast = new Toast(context.getApplicationContext());
+                toast.setText("LongClick");
+                toast.show();
+
+                return true;
             }
         });
 

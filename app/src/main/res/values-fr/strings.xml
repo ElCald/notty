@@ -3,4 +3,9 @@
 
     <string name="title_note">Titre</string>
     <string name="body_note">Contenu</string>
+    <string name="sort">Trier</string>
+    <string name="sort_title">Titre</string>
+    <string name="sort_dateCreation">Date de création</string>
+    <string name="sort_dateModification">Date de modification</string>
+    <string name="sort_fav">Favoris</string>
 </resources>

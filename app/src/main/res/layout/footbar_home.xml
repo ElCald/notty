@@ -1,35 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/id_home_footbar"
-    style="@style/styleFootbar"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/id_home_toolbar_footbar"
     android:layout_width="match_parent"
     android:layout_height="40dp"
-    android:paddingVertical="10dp">
+    android:paddingVertical="10dp"
+    android:orientation="horizontal"
+    android:gravity="center"
+    style="@style/styleFootbar">
+
+
+    <ImageView
+        android:id="@+id/id_home_toolbar_btn_directory"
+        android:layout_width="25dp"
+        android:layout_height="match_parent"
+        android:src="@drawable/menu"
+        android:layout_marginHorizontal="25dp"
+        style="@style/styleFootbar_directoryBtn"/>
 
 
     <ImageView
         android:id="@+id/id_home_toolbar_btn_search"
-        style="@style/styleFootbar_searchBtn"
         android:layout_width="25dp"
         android:layout_height="match_parent"
-        android:layout_gravity="left"
-        android:layout_marginLeft="50dp" />
+        android:src="@drawable/recherche"
+        android:layout_marginHorizontal="20dp"
+        style="@style/styleFootbar_searchBtn"/>
 
     <ImageView
         android:id="@+id/id_home_toolbar_btn_addNote"
-        style="@style/styleFootbar_addBtn"
-        android:layout_width="25dp"
+        android:layout_width="30dp"
         android:layout_height="match_parent"
-        android:layout_gravity="center" />
+        android:src="@drawable/ajouter"
+        android:layout_marginHorizontal="40dp"
+        style="@style/styleFootbar_addBtn"/>
 
     <ImageView
         android:id="@+id/id_home_toolbar_btn_favorite"
-        style="@style/styleFootbar_favBtn"
         android:layout_width="25dp"
         android:layout_height="match_parent"
-        android:layout_gravity="right"
-        android:layout_marginRight="50dp" />
+        android:src="@drawable/etoile_empty"
+        android:layout_marginHorizontal="25dp"
+        style="@style/styleFootbar_favBtn"/>
+
+    <ImageView
+        android:id="@+id/id_home_toolbar_btn_options"
+        android:layout_width="25dp"
+        android:layout_height="match_parent"
+        android:src="@drawable/options"
+        android:layout_marginHorizontal="25dp"
+        style="@style/styleFootbar_optionsBtn"/>
 
 
-
-</androidx.appcompat.widget.Toolbar>
+</LinearLayout>

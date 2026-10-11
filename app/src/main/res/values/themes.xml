@@ -4,14 +4,6 @@
 
     <style name="Base.Theme.Notty" parent="Theme.AppCompat.NoActionBar">
         <!-- Customize your light theme here. -->
-
-        <item name="option_icon">@drawable/options_black</item>
-        <item name="add_icon">@drawable/add_icon_black</item>
-        <item name="favorite_icon">@drawable/etoile_black_empty</item>
-        <item name="not_favorite_icon">@drawable/etoile_black_filled</item>
-        <item name="search_icon">@drawable/loupe_black</item>
-        <item name="back_icon">@drawable/left_arrow_black</item>
-
     </style>
 
     <style name="stylePage">
@@ -36,7 +28,7 @@
     </style>
 
     <style name="styleToolbar_Option">
-        <item name="android:src">@drawable/options_grey</item>
+        <item name="android:tint">@color/black</item>
     </style>
 
 
@@ -46,25 +38,43 @@
     </style>
 
     <style name="styleFootbar_addBtn">
-        <item name="android:src">@drawable/add_icon_grey</item>
+        <item name="android:tint">@color/black</item>
     </style>
 
     <style name="styleFootbar_favBtn">
-        <item name="android:src">@drawable/etoile_grey_empty</item>
+        <item name="android:tint">@color/black</item>
     </style>
 
     <style name="styleFootbar_searchBtn">
-        <item name="android:src">@drawable/loupe_grey</item>
+        <item name="android:tint">@color/black</item>
+    </style>
+
+    <style name="styleFootbar_directoryBtn">
+        <item name="android:tint">@color/black</item>
+    </style>
+
+    <style name="styleFootbar_optionsBtn">
+        <item name="android:tint">@color/black</item>
+    </style>
+
+
+    <style name="styleOptionsHome">
+        <item name="android:background">@color/dark_cream</item>
+    </style>
+
+    <style name="styleOptionsHome_btn">
+        <item name="android:textColor">@color/dark_grey</item>
     </style>
 
 
 
     <style name="stylePageCreate_backBtn">
-        <item name="android:src">@drawable/left_arrow_grey</item>
+        <item name="android:tint">@color/black</item>
     </style>
 
     <style name="stylePageCreate_edit">
         <item name="android:backgroundTint">@color/grey</item>
+        <item name="android:textColor">@color/black</item>
     </style>
 
 
@@ -82,11 +92,11 @@
     </style>
 
     <style name="stylePageRead_BackBtn">
-        <item name="android:src">@drawable/left_arrow_grey</item>
+        <item name="android:tint">@color/black</item>
     </style>
 
     <style name="stylePageRead_ModifyBtn">
-        <item name="android:src">@drawable/crayon_grey</item>
+        <item name="android:tint">@color/black</item>
     </style>
 
 </resources>

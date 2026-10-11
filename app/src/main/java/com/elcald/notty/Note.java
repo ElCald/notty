@@ -1,6 +1,12 @@
 package com.elcald.notty;
 
+import android.annotation.SuppressLint;
+
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Note implements Serializable {
     private final int id;
@@ -19,9 +25,9 @@ public class Note implements Serializable {
         this.id = -1;
         this.title = "undefined";
         this.content = "content";
-        this.dateCreation = "01/01/1990";
-        this.dateModification = "01/01/1990";
-        this.directory = "undefined";
+        this.dateCreation = "01/01/1990 00:00:00";
+        this.dateModification = "01/01/1990 00:00:00";
+        this.directory = "";
         this.favorite = false;
         this.is_locked = false;
     }
@@ -32,7 +38,7 @@ public class Note implements Serializable {
         this.content = content;
         this.dateCreation = dateCreation;
         this.dateModification = dateCreation;
-        this.directory = "undefined";
+        this.directory = "";
         this.favorite = false;
         this.is_locked = false;
     }
@@ -60,6 +66,25 @@ public class Note implements Serializable {
     public String getDirectory() { return directory; }
     public boolean getFavorite() { return favorite; }
     public boolean getIsLocked() { return is_locked; }
+
+    public Date getDateFormated(String dateString) throws ParseException {
+        try {
+            @SuppressLint("SimpleDateFormat")
+            DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            return formatter.parse(dateString);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    public String getDateCreationShort(){
+        return dateCreation.substring(0, 10);
+    }
+
+    public String getDateModificationShort(){
+        return dateModification.substring(0, 10);
+    }
 
 
     public void setTitle(String title) { this.title = title; }

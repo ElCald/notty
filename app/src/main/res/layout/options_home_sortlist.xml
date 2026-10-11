@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/id_home_options_sortlist"
+    style="@style/styleOptionsHome"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/id_options_home_btn_sort_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="10dp"
+        android:gravity="center"
+        android:text="@string/sort_title"
+        style="@style/styleOptionsHome_btn"/>
+
+    <TextView
+        android:id="@+id/id_options_home_btn_sort_dateCreation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="10dp"
+        android:gravity="center"
+        android:text="@string/sort_dateCreation"
+        style="@style/styleOptionsHome_btn"/>
+
+    <TextView
+        android:id="@+id/id_options_home_btn_sort_dateModification"
+        android:layout_width="match_parent"
+        android:paddingVertical="10dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/sort_dateModification"
+        style="@style/styleOptionsHome_btn"/>
+
+    <TextView
+        android:id="@+id/id_options_home_btn_sort_fav"
+        android:layout_width="match_parent"
+        android:paddingVertical="10dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/sort_fav"
+        style="@style/styleOptionsHome_btn" />
+
+</LinearLayout>

@@ -2,4 +2,9 @@
     <string name="app_name" translatable="false">Notty</string>
     <string name="title_note">Title</string>
     <string name="body_note">Content</string>
+    <string name="sort">Sort</string>
+    <string name="sort_title">Title</string>
+    <string name="sort_dateCreation">Date of creation</string>
+    <string name="sort_dateModification">Date of modification</string>
+    <string name="sort_fav">Favorites</string>
 </resources>

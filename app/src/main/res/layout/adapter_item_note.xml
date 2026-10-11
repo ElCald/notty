@@ -17,10 +17,47 @@
         android:focusable="true"
         android:gravity="center"
         android:onClick="onClick"
-        android:padding="15dp"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="25dp"
         android:text="TextView"
         android:textSize="20sp"
         app:layout_constraintDimensionRatio="1:1"
         style="@style/styleNoteTile"/>
+
+    <ImageView
+        android:id="@+id/id_adapter_text_note_fav"
+        style="@style/styleNoteTile_fav"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/etoile_fill" />
+
+    <TextView
+        android:id="@+id/id_adapter_text_note_directory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="5dp"
+        android:visibility="invisible"
+        android:text="Directory"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="@+id/id_adapter_text_note_title"
+        app:layout_constraintEnd_toEndOf="@id/id_adapter_text_note_title" />
+
+    <ImageView
+        android:id="@+id/id_adapter_text_note_tile_locker"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="10dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@id/id_adapter_text_note_title"
+        app:layout_constraintStart_toStartOf="@id/id_adapter_text_note_title"
+        app:srcCompat="@drawable/cadena"
+        style="@style/styleNoteTile_locker"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

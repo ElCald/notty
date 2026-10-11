@@ -1,6 +1,8 @@
 package com.elcald.notty;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -16,9 +18,14 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 public class Bibliotheque {
@@ -27,11 +34,21 @@ public class Bibliotheque {
 
     private final String FILENAME = "notty_save.txt";
     private String jsonBib = ""; // Nom du fichier bdd
-    private List<Note> noteItemList;
+    private List<Note> noteItemListRaw; // liste brute du json qui est modifié
+    private List<Note> noteItemList; // liste d'affichage
     private String version;
     private int id_total;
     private Context context;
     private String hashPassword;
+    private int sortType;
+    private List<String> directories;
+
+    public final int SORT_TITLE = 0;
+    public final int SORT_DATECREATION = 1;
+    public final int SORT_DATECREATION_REVERSE = 2;
+    public final int SORT_DATEMODIFICATION = 3;
+    public final int SORT_DATEMODIFICATION_REVERSE = 4;
+    public final int SORT_FAV = 5;
 
 
     // constructeur
@@ -48,6 +65,10 @@ public class Bibliotheque {
 
         this.context = context;
 
+        this.noteItemListRaw = new ArrayList<>();
+
+        this.directories  = new ArrayList<>();
+
 
 
         // Création du fichier bdd initiale s'il n'existe pas
@@ -56,6 +77,8 @@ public class Bibliotheque {
         {
             delete_notty_file();
         }
+
+        delete_notty_file();
 
 
 
@@ -82,18 +105,53 @@ public class Bibliotheque {
 
 
 
-        this.noteItemList = new ArrayList<>();
 
+
+        Log.d("nottyprint", this.jsonBib);
 
         // parsing du json pour créer la liste et obtenir toutes les info
 
         JSONObject buJSON = new JSONObject(this.jsonBib);
-        JSONArray notesJSON = buJSON.getJSONArray("notes");
+        JSONArray notesJSON = null;
+        JSONArray directoriesJSON = null;
 
 
-        this.version = buJSON.getString("version");
-        this.hashPassword = buJSON.getString("hashPassword");
-        this.id_total = buJSON.getInt("id_total");
+
+        try {
+            notesJSON = buJSON.getJSONArray("notes");
+        }catch(Exception e){
+            notesJSON = new JSONArray();
+        }
+
+        try {
+            directoriesJSON = buJSON.getJSONArray("directories");
+        }catch(Exception e){
+            directoriesJSON = new JSONArray();
+        }
+
+        try {
+            this.version = buJSON.getString("version");
+        }catch(Exception e){
+            this.version = "1.0.0";
+        }
+
+        try {
+            this.hashPassword = buJSON.getString("hashPassword");
+        }catch(Exception e){
+            this.hashPassword = "";
+        }
+
+        try {
+            this.sortType = buJSON.getInt("sortType");
+        }catch(Exception e){
+            this.sortType = 0;
+        }
+
+        try {
+            this.id_total = buJSON.getInt("id_total");
+        }catch(Exception e){
+            this.id_total = 0;
+        }
 
 
         for (int i = 0; i < notesJSON.length(); i++) {
@@ -109,10 +167,44 @@ public class Bibliotheque {
             boolean favorite = noteJSON.getBoolean("favorite");
             boolean is_locked = noteJSON.getBoolean("is_locked");
 
-            noteItemList.add(new Note(id, title, content, dateCreation, dateModification, directory, favorite, is_locked));
+            try {
+                @SuppressLint("SimpleDateFormat")
+                DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                formatter.parse(dateCreation);
+            } catch (Exception e) {
+                dateCreation += " 00:00:00";
+            }
+
+            try {
+                @SuppressLint("SimpleDateFormat")
+                DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                formatter.parse(dateModification);
+            } catch (Exception e) {
+                dateModification += " 00:00:00";
+            }
+
+            noteItemListRaw.add(new Note(id, title, content, dateCreation, dateModification, directory, favorite, is_locked));
         }
 
+        if(directoriesJSON.length() == 0){
+            directories.add("");
+        }
+        else{
+            for(int i =0; i<directoriesJSON.length(); i++){
+                String dirName = directoriesJSON.getString(i);
+                this.directories.add(dirName);
+            }
+        }
+
+
+        noteItemList = new ArrayList<>(noteItemListRaw);
+
+        sortBy();
+
     }
+
+
+
 
     // methodes
 
@@ -123,8 +215,8 @@ public class Bibliotheque {
 
         contenuBibli.append("Version:").append(this.version).append("\n").append("id size:").append(this.id_total).append("\nNotes:\n");
 
-        for(int i=0; i< noteItemList.size(); i++){
-            contenuBibli.append(noteItemList.get(i).getTitle()).append(" | Date modif : ").append(noteItemList.get(i).getDateModification()).append("\n");
+        for(int i=0; i< noteItemListRaw.size(); i++){
+            contenuBibli.append(noteItemListRaw.get(i).getTitle()).append(" | Date modif : ").append(noteItemListRaw.get(i).getDateModification()).append("\n");
         }
 
         contenuBibli.append("hash:").append(this.hashPassword).append("\n");
@@ -137,7 +229,7 @@ public class Bibliotheque {
      * @param note
      */
     public void addNote(Note note){
-        noteItemList.add(note);
+        noteItemListRaw.add(note);
         this.id_total++;
         save_notty_file();
     }
@@ -150,7 +242,7 @@ public class Bibliotheque {
     public void createNote(String title, String content){
 
         LocalDateTime myDateObj = LocalDateTime.now();
-        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
         String formattedDate = myDateObj.format(myFormatObj);
 
         Note note = new Note(id_total, title, content, formattedDate);
@@ -164,8 +256,8 @@ public class Bibliotheque {
      * @return position de la note dans la liste de la bdd, sinon -1
      */
     public int getNotePos(int id){
-        for(int i=0; i<noteItemList.size(); i++){
-            if(noteItemList.get(i).getId() == id)
+        for(int i=0; i<noteItemListRaw.size(); i++){
+            if(noteItemListRaw.get(i).getId() == id)
                 return i;
         }
 
@@ -181,7 +273,7 @@ public class Bibliotheque {
         int i = getNotePos(id);
 
         if(i != -1){
-            return noteItemList.get(i);
+            return noteItemListRaw.get(i);
         }
         else {
             return null;
@@ -197,14 +289,14 @@ public class Bibliotheque {
     public void updateNote(int id, String title, String content){
         int i = getNotePos(id);
 
-        noteItemList.get(i).setTitle(title);
-        noteItemList.get(i).setContent(content);
+        noteItemListRaw.get(i).setTitle(title);
+        noteItemListRaw.get(i).setContent(content);
 
         LocalDateTime myDateObj = LocalDateTime.now();
         DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         String formattedDate = myDateObj.format(myFormatObj);
 
-        noteItemList.get(i).setDateModification(formattedDate);
+        noteItemListRaw.get(i).setDateModification(formattedDate);
 
         save_notty_file();
     }
@@ -215,7 +307,7 @@ public class Bibliotheque {
      */
     public void swapLock(int id){
         int i = getNotePos(id);
-        noteItemList.get(i).swapLock();
+        noteItemListRaw.get(i).swapLock();
         save_notty_file();
     }
 
@@ -225,7 +317,16 @@ public class Bibliotheque {
      */
     public void deleteNote(int id){
         int i = getNotePos(id);
-        noteItemList.remove(i);
+        noteItemListRaw.remove(i);
+    }
+
+    public void addDirectory(String dir){
+        if(!directories.contains(dir))
+            directories.add(dir);
+    }
+
+    public void deleteDirectory(String dir){
+        directories.remove(dir);
     }
 
     /**
@@ -234,6 +335,14 @@ public class Bibliotheque {
      */
     public List<Note> get(){
         return noteItemList;
+    }
+
+    public List<Note> getRaw(){
+        return noteItemListRaw;
+    }
+
+    public List<String> getDirectories(){
+        return directories;
     }
 
     /**
@@ -248,35 +357,130 @@ public class Bibliotheque {
      */
     public String getNomFichierNotty(){ return this.FILENAME; }
 
+
+    public void setSortType(int s){
+        this.sortType = s;
+        save_notty_file();
+    }
+
+    public void sortBy(){
+
+        noteItemList = new ArrayList<>(noteItemListRaw);
+
+        switch (this.sortType){
+            case 0: // titre
+                noteItemList.sort(new Comparator<Note>() {
+                    @Override
+                    public int compare(Note n1, Note n2) {
+                        return CharSequence.compare(n1.getTitle(), n2.getTitle());
+                    }
+                });
+                break;
+
+            case 1: // date creation
+                noteItemList.sort(new Comparator<Note>() {
+                    @Override
+                    public int compare(Note n1, Note n2) {
+                        try {
+                            return n2.getDateFormated(n2.getDateCreation()).compareTo(n1.getDateFormated(n1.getDateCreation()));
+                        } catch (ParseException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                });
+                break;
+
+            case 2: // date creation reverse
+                noteItemList.sort(new Comparator<Note>() {
+                    @Override
+                    public int compare(Note n1, Note n2) {
+                        try {
+                            return n1.getDateFormated(n1.getDateCreation()).compareTo(n2.getDateFormated(n2.getDateCreation()));
+                        } catch (ParseException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                });
+                break;
+
+            case 3: // date modification
+                noteItemList.sort(new Comparator<Note>() {
+                    @Override
+                    public int compare(Note n1, Note n2) {
+                        try {
+                            return n2.getDateFormated(n2.getDateModification()).compareTo(n1.getDateFormated(n1.getDateModification()));
+                        } catch (ParseException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                });
+
+                break;
+
+            case 4: // date modification reverse
+                noteItemList.sort(new Comparator<Note>() {
+                    @Override
+                    public int compare(Note n1, Note n2) {
+                        try {
+                            return n1.getDateFormated(n1.getDateModification()).compareTo(n2.getDateFormated(n2.getDateModification()));
+                        } catch (ParseException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                });
+                break;
+
+            case 5: // favoris
+                noteItemList.clear();
+                for(Note n : noteItemListRaw){
+                    if(n.getFavorite()){
+                        noteItemList.add(n);
+                    }
+                }
+                break;
+
+            default:
+                break;
+        }
+    }
+
     // json
     public JSONObject toJSON() throws JSONException {
         JSONObject buJSON = new JSONObject();
         JSONArray notesJSON = new JSONArray();
+        JSONArray directoriesJSON = new JSONArray();
 
         buJSON.put("version",this.version);
         buJSON.put("id_total",this.id_total);
         buJSON.put("hashPassword",this.hashPassword);
+        buJSON.put("sortType",this.sortType);
 
 
         // creation de la liste JSON des notes
 
-        for(int i=0; i<noteItemList.size(); i++){
+        for(int i=0; i<noteItemListRaw.size(); i++){
             JSONObject noteJSON = new JSONObject();
 
-            noteJSON.put("id",noteItemList.get(i).getId());
-            noteJSON.put("title",noteItemList.get(i).getTitle());
-            noteJSON.put("body",noteItemList.get(i).getContent());
-            noteJSON.put("dateCreation",noteItemList.get(i).getDateCreation());
-            noteJSON.put("dateModification",noteItemList.get(i).getDateModification());
-            noteJSON.put("directory",noteItemList.get(i).getDirectory());
-            noteJSON.put("favorite",noteItemList.get(i).getFavorite());
-            noteJSON.put("is_locked",noteItemList.get(i).getIsLocked());
+            noteJSON.put("id",noteItemListRaw.get(i).getId());
+            noteJSON.put("title",noteItemListRaw.get(i).getTitle());
+            noteJSON.put("body",noteItemListRaw.get(i).getContent());
+            noteJSON.put("dateCreation",noteItemListRaw.get(i).getDateCreation());
+            noteJSON.put("dateModification",noteItemListRaw.get(i).getDateModification());
+            noteJSON.put("directory",noteItemListRaw.get(i).getDirectory());
+            noteJSON.put("favorite",noteItemListRaw.get(i).getFavorite());
+            noteJSON.put("is_locked",noteItemListRaw.get(i).getIsLocked());
 
             notesJSON.put(noteJSON);
         }
 
+        // creation de la liste des répertoires
+
+        for(int i=0; i<directories.size(); i++){
+            directoriesJSON.put(directories.get(i));
+        }
 
         buJSON.put("notes",notesJSON);
+        buJSON.put("directories",directoriesJSON);
 
         return buJSON;
     }
@@ -304,7 +508,7 @@ public class Bibliotheque {
 
         JSONObject initFileJSON = null;
         try {
-            initFileJSON = new JSONObject("{ \"version\":\"1.0.0\", \"id_total\":0, \"hashPassword\":\"default\", \"notes\":[] }");
+            initFileJSON = new JSONObject("{ \"version\":\"1.0.0\", \"id_total\":0, \"hashPassword\":\"default\", \"sortType\":0, \"notes\":[], \"directories\":[] }");
 
             FileOutputStream initFile = this.context.openFileOutput(FILENAME, Context.MODE_PRIVATE);
             initFile.write(initFileJSON.toString().getBytes());

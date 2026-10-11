@@ -9,12 +9,6 @@
         <item name="colorPrimaryFixed">@color/cream</item>
         <item name="colorSecondaryFixed">@color/light_grey</item>
 
-        <item name="option_icon">@drawable/options_white</item>
-        <item name="add_icon">@drawable/add_icon_white</item>
-        <item name="favorite_icon">@drawable/etoile_white_empty</item>
-        <item name="not_favorite_icon">@drawable/etoile_white_filled</item>
-        <item name="search_icon">@drawable/loupe_white</item>
-        <item name="back_icon">@drawable/left_arrow_white</item>
     </style>
 
     <style name="stylePage">
@@ -26,6 +20,15 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <style name="styleNoteTile_fav">
+        <item name="android:tint">@color/dark_cream</item>
+    </style>
+
+    <style name="styleNoteTile_locker">
+        <item name="android:tint">@color/dark_grey</item>
+    </style>
+
+
 
 
     <style name="styleToolbar">
@@ -33,11 +36,11 @@
     </style>
 
     <style name="styleToolbar_Title">
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">@color/cream</item>
     </style>
 
     <style name="styleToolbar_Option">
-        <item name="android:src">@drawable/options_white</item>
+        <item name="android:tint">@color/white</item>
     </style>
 
 
@@ -47,47 +50,68 @@
     </style>
 
     <style name="styleFootbar_addBtn">
-        <item name="android:src">@drawable/add_icon_white</item>
+        <item name="android:tint">@color/cream</item>
     </style>
 
     <style name="styleFootbar_favBtn">
-        <item name="android:src">@drawable/etoile_white_empty</item>
+        <item name="android:tint">@color/cream</item>
     </style>
 
     <style name="styleFootbar_searchBtn">
-        <item name="android:src">@drawable/loupe_white</item>
+        <item name="android:tint">@color/cream</item>
     </style>
 
+    <style name="styleFootbar_directoryBtn">
+        <item name="android:tint">@color/cream</item>
+    </style>
+
+    <style name="styleFootbar_optionsBtn">
+        <item name="android:tint">@color/cream</item>
+    </style>
+
+
+    <style name="styleOptionsHome">
+        <item name="android:background">@color/dark_grey</item>
+    </style>
+
+    <style name="styleOptionsHome_btn">
+        <item name="android:textColor">@color/white</item>
+    </style>
 
 
     <style name="stylePageCreate_backBtn">
-        <item name="android:src">@drawable/left_arrow_grey</item>
+        <item name="android:tint">@color/dark_cream</item>
     </style>
 
     <style name="stylePageCreate_edit">
-        <item name="android:backgroundTint">@color/white</item>
+        <item name="android:backgroundTint">@color/light_cream</item>
+        <item name="android:textColor">@color/light_cream</item>
     </style>
 
 
 
     <style name="stylePageRead_Title">
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">@color/light_cream</item>
     </style>
 
     <style name="stylePageRead_Content">
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">@color/light_cream</item>
     </style>
 
     <style name="stylePageRead_Date">
         <item name="android:textColor">@color/light_grey</item>
     </style>
 
+    <style name="stylePageRead_Directory">
+        <item name="android:textColor">@color/dark_cream</item>
+    </style>
+
     <style name="stylePageRead_BackBtn">
-        <item name="android:src">@drawable/left_arrow_grey</item>
+        <item name="android:tint">@color/dark_cream</item>
     </style>
 
     <style name="stylePageRead_ModifyBtn">
-        <item name="android:src">@drawable/crayon_grey</item>
+        <item name="android:tint">@color/dark_cream</item>
     </style>
 
 </resources>
