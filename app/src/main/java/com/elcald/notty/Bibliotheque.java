@@ -77,9 +77,7 @@ public class Bibliotheque {
         {
             delete_notty_file();
         }
-
-        delete_notty_file();
-
+        
 
 
         try {
