@@ -30,12 +30,10 @@ public class NoteItemAdapter extends BaseAdapter {
 
 
     // constructeur
-    public NoteItemAdapter(Context context, List<Note> noteItemList/*, int tile_width, int tile_height*/){
+    public NoteItemAdapter(Context context, List<Note> noteItemList){
         this.context = context;
         this.noteItemList = noteItemList;
         this.inflater = LayoutInflater.from(context);
-        /*this.tile_width = tile_width;
-        this.tile_height = tile_height;*/
     }
 
     // methodes
@@ -68,8 +66,8 @@ public class NoteItemAdapter extends BaseAdapter {
         boolean itemLocker = currentItem.getIsLocked();
         boolean itemFav = currentItem.getFavorite();
 
-        // vérifier si le titre est vide, auquel cas on mettra le corps pour le titre
 
+        // Resize la tile en fonction de la largeur de l'écran
         // à voir si ça marche vraiment
         WindowManager manager =  (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
         Display display = manager.getDefaultDisplay();
@@ -84,6 +82,8 @@ public class NoteItemAdapter extends BaseAdapter {
         ImageView itemTileLocker = convertView.findViewById(R.id.id_adapter_text_note_tile_locker);
         TextView itemTileDirectory = convertView.findViewById(R.id.id_adapter_text_note_directory);
 
+
+        // vérifier si le titre est vide, auquel cas on mettra le corps pour le titre
         if(itemTitle.trim().isEmpty())
             itemTitleView.setText(itemBody);
         else

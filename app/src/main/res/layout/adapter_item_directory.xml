@@ -7,4 +7,13 @@
     android:layout_height="match_parent"
     tools:context=".adapter_item_directory">
 
+    <TextView
+        android:id="@+id/id_directory_adapter_text"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="TextView"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        style="@style/styleDirectoryTile"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

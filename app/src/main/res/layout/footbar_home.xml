@@ -36,13 +36,6 @@
         android:layout_marginHorizontal="40dp"
         style="@style/styleFootbar_addBtn"/>
 
-    <ImageView
-        android:id="@+id/id_home_toolbar_btn_favorite"
-        android:layout_width="25dp"
-        android:layout_height="match_parent"
-        android:src="@drawable/etoile_empty"
-        android:layout_marginHorizontal="25dp"
-        style="@style/styleFootbar_favBtn"/>
 
     <ImageView
         android:id="@+id/id_home_toolbar_btn_options"

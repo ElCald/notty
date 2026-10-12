@@ -13,6 +13,21 @@
 
 
     <style name="styleNoteTile">
+        <item name="android:background">@color/dark_cream</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="styleNoteTile_fav">
+        <item name="android:tint">@color/dark_cream</item>
+    </style>
+
+    <style name="styleNoteTile_locker">
+        <item name="android:tint">@color/dark_grey</item>
+    </style>
+
+
+
+    <style name="styleDirectoryTile">
         <item name="android:backgroundTint">@color/dark_cream</item>
         <item name="android:textColor">@color/black</item>
     </style>

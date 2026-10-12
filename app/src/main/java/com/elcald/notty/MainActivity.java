@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private ImageView btn_addNote;
-    private ImageView btn_showFav;
+    private ImageView btn_directories;
     private ImageView btn_options;
     private TextView btn_options_sort;
     private TextView btn_options_sort_title;
@@ -114,6 +114,18 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        // Bouton pour aller dans le menu des répertoires
+        this.btn_directories = (ImageView)findViewById(R.id.id_home_toolbar_btn_directory);
+        btn_directories.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent directoryActivity = new Intent(getApplicationContext(), DirectoryActivity.class);
+                startActivity(directoryActivity);
+                finish();
+            }
+        });
+
+
         // Bouton pour créer une note
         this.btn_addNote = (ImageView)findViewById(R.id.id_home_toolbar_btn_addNote);
         btn_addNote.setOnClickListener(new View.OnClickListener() {
@@ -125,17 +137,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Bouton pour voir uniquement les favoris
-        this.btn_showFav = (ImageView)findViewById(R.id.id_home_toolbar_btn_favorite);
-        btn_showFav.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                biblio.setSortType(biblio.SORT_FAV);
-                Intent mainActivity = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(mainActivity);
-                finish();
-            }
-        });
 
 
         // Bouton pour afficher les options
