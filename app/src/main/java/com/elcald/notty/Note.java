@@ -28,7 +28,7 @@ public class Note implements Serializable {
         this.content = "content";
         this.dateCreation = "01/01/1990 00:00:00";
         this.dateModification = "01/01/1990 00:00:00";
-        this.directory = "";
+        this.directory = "None";
         this.favorite = false;
         this.is_locked = false;
         this.is_selected = false;
@@ -40,7 +40,7 @@ public class Note implements Serializable {
         this.content = content;
         this.dateCreation = dateCreation;
         this.dateModification = dateCreation;
-        this.directory = "";
+        this.directory = "None";
         this.favorite = false;
         this.is_locked = false;
         this.is_selected = false;
@@ -55,7 +55,7 @@ public class Note implements Serializable {
         this.directory = directory;
         this.favorite = favorite;
         this.is_locked = is_locked;
-        this.is_selected = is_locked;
+        this.is_selected = false;
     }
 
 

@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
@@ -35,6 +36,8 @@ public class DirectoryActivity extends AppCompatActivity {
     private ImageView btn_addDirectory;
     private Bibliotheque biblio;
 
+    private TextView home_toolbar_title;
+
 
 
     @Override
@@ -49,6 +52,9 @@ public class DirectoryActivity extends AppCompatActivity {
         });
 
         DirectoryActivity activity = this;
+
+        home_toolbar_title = findViewById(R.id.textView_TBar_titre);
+        home_toolbar_title.setText(R.string.directory);
 
         btn_addDirectory = findViewById(R.id.id_directory_toolbar_btn_addDirectory);
 
@@ -123,8 +129,7 @@ public class DirectoryActivity extends AppCompatActivity {
 
         directoriesListView.setOnItemClickListener((parent, view, position, id) -> {
             String item = (String)parent.getItemAtPosition(position);
-
-            biblio.showOnlyDirectory(item);
+            biblio.setCurrentDirectory(item);
 
             Intent mainActivity = new Intent(this, MainActivity.class);
             startActivity(mainActivity);
@@ -160,7 +165,7 @@ public class DirectoryActivity extends AppCompatActivity {
                     List<String> selectedDirectory = new ArrayList<>();
 
 
-                    // on récupère les notes séléctionnées
+                    // on récupère les dossiers séléctionnées
                     for (int i = 0; i < checked.size(); i++) {
                         if (checked.valueAt(i)) {
                             selectedDirectory.add(directoryAdapter.getItem(checked.keyAt(i)));

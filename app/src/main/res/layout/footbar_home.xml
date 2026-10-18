@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/id_home_toolbar_footbar"
     android:layout_width="match_parent"
-    android:layout_height="40dp"
-    android:paddingVertical="10dp"
+    android:layout_height="50dp"
     android:orientation="horizontal"
     android:gravity="center"
     style="@style/styleFootbar">
@@ -13,10 +12,10 @@
 
     <ImageView
         android:id="@+id/id_home_toolbar_btn_directory"
-        android:layout_width="25dp"
+        android:layout_width="50dp"
         android:layout_height="match_parent"
         android:src="@drawable/menu"
-        android:layout_marginHorizontal="25dp"
+        android:paddingVertical="15dp"
         style="@style/styleFootbar_directoryBtn"/>
 
 
@@ -30,19 +29,20 @@
 
     <ImageView
         android:id="@+id/id_home_toolbar_btn_addNote"
-        android:layout_width="30dp"
+        android:layout_width="50dp"
         android:layout_height="match_parent"
         android:src="@drawable/ajouter"
-        android:layout_marginHorizontal="40dp"
+        android:layout_marginHorizontal="80dp"
+        android:paddingVertical="10dp"
         style="@style/styleFootbar_addBtn"/>
 
 
     <ImageView
         android:id="@+id/id_home_toolbar_btn_options"
-        android:layout_width="25dp"
+        android:layout_width="50dp"
         android:layout_height="match_parent"
         android:src="@drawable/options"
-        android:layout_marginHorizontal="25dp"
+        android:paddingVertical="15dp"
         style="@style/styleFootbar_optionsBtn"/>
 
 

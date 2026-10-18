@@ -3,14 +3,16 @@
 
     <item
         android:id="@+id/id_menu_note_tile_action_directory"
-        android:icon="@android:drawable/ic_menu_compass"
+        android:icon="@drawable/dossier"
         android:title="Dossier"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="ifRoom"
+        android:iconTint="?attr/colorSecondary"/>
 
     <item
         android:id="@+id/id_menu_note_tile_action_supprimer"
-        android:icon="@android:drawable/ic_menu_delete"
+        android:icon="@drawable/poubelle"
         android:title="Supprimer"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="ifRoom"
+        android:iconTint="?attr/colorSecondary"/>
 
 </menu>

@@ -4,6 +4,7 @@
 
     <style name="Base.Theme.Notty" parent="Theme.AppCompat.NoActionBar">
         <!-- Customize your light theme here. -->
+        <item name="colorSecondary">@color/black</item>
     </style>
 
     <style name="stylePage">
@@ -38,6 +39,10 @@
 
     <style name="styleDirectoryTile_selected">
         <item name="android:background">@color/cream</item>
+    </style>
+
+    <style name="styleDirectoryTile_pointer">
+        <item name="android:tint">@color/yellow</item>
     </style>
 
 
@@ -96,6 +101,16 @@
     </style>
 
 
+    <style name="styleOptionsPopup_close">
+        <item name="android:tint">@color/black</item>
+    </style>
+
+    <style name="styleOptionsPopup_add">
+        <item name="android:background">@color/cream</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+
 
     <style name="stylePageCreate_backBtn">
         <item name="android:tint">@color/black</item>
@@ -127,5 +142,6 @@
     <style name="stylePageRead_ModifyBtn">
         <item name="android:tint">@color/black</item>
     </style>
+
 
 </resources>

@@ -2,12 +2,8 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.Notty" parent="Theme.AppCompat.NoActionBar">
         <!-- Customize your dark theme here. -->
-        <item name="colorPrimary">@color/grey</item>
-        <item name="colorSecondary">@color/light_grey</item>
-        <item name="colorPrimaryDark">@color/dark_grey</item>
 
-        <item name="colorPrimaryFixed">@color/cream</item>
-        <item name="colorSecondaryFixed">@color/light_grey</item>
+        <item name="colorSecondary">@color/cream</item>
 
     </style>
 
@@ -41,6 +37,10 @@
 
     <style name="styleDirectoryTile_selected">
         <item name="android:background">@color/lighter_grey</item>
+    </style>
+
+    <style name="styleDirectoryTile_pointer">
+        <item name="android:tint">@color/yellow</item>
     </style>
 
 
@@ -99,6 +99,16 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <style name="styleOptionsPopup_close">
+        <item name="android:tint">@color/cream</item>
+    </style>
+
+    <style name="styleOptionsPopup_add">
+        <item name="android:background">@color/dark_grey</item>
+        <item name="android:textColor">@color/cream</item>
+    </style>
+
+
 
     <style name="stylePageCreate_backBtn">
         <item name="android:tint">@color/dark_cream</item>
@@ -120,7 +130,7 @@
     </style>
 
     <style name="stylePageRead_Date">
-        <item name="android:textColor">@color/light_grey</item>
+        <item name="android:textColor">@color/lighter_grey</item>
     </style>
 
     <style name="stylePageRead_Directory">
@@ -133,6 +143,11 @@
 
     <style name="stylePageRead_ModifyBtn">
         <item name="android:tint">@color/dark_cream</item>
+    </style>
+
+
+    <style name="styleMenuSelectNote_icons">
+        <item name="android:iconTint">@color/cream</item>
     </style>
 
 </resources>

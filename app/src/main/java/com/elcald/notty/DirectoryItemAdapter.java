@@ -11,13 +11,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.json.JSONException;
+
+import java.io.FileNotFoundException;
 import java.util.List;
 
 public class DirectoryItemAdapter extends BaseAdapter {
 
     private Context context;
+    private Bibliotheque biblio;
     private List<String> directoryItemList;
     private LayoutInflater inflater;
 
@@ -32,6 +37,12 @@ public class DirectoryItemAdapter extends BaseAdapter {
         this.context = context;
         this.directoryItemList = directoryItemList;
         this.inflater = LayoutInflater.from(context);
+
+        try {
+            biblio = new Bibliotheque(context);
+        } catch (JSONException | FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
 
 
         bgNormal = readBackground(context, R.style.styleDirectoryTile);
@@ -75,6 +86,7 @@ public class DirectoryItemAdapter extends BaseAdapter {
         String currentItem = getItem(position);
 
         TextView itemDirectoryText = convertView.findViewById(R.id.id_directory_adapter_text);
+        ImageView itemDirectoryPointer = convertView.findViewById(R.id.id_directory_adapter_pointer);
 
         if(currentItem.equals("None"))
             itemDirectoryText.setText(R.string.none_dir);
@@ -83,6 +95,13 @@ public class DirectoryItemAdapter extends BaseAdapter {
         else
             itemDirectoryText.setText(currentItem);
 
+
+        if(currentItem.equals(biblio.getCurrentDirectory())){
+            itemDirectoryPointer.setVisibility(convertView.VISIBLE);
+        }
+        else{
+            itemDirectoryPointer.setVisibility(convertView.INVISIBLE);
+        }
 
 
         // changer coouleur a la selection

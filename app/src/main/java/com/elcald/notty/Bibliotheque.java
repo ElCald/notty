@@ -41,6 +41,7 @@ public class Bibliotheque {
     private Context context;
     private String hashPassword;
     private int sortType;
+    private String currentDirectory;
     private List<String> directories;
 
     public final int SORT_TITLE = 0;
@@ -103,9 +104,7 @@ public class Bibliotheque {
 
 
 
-
-
-        Log.d("nottyprint", this.jsonBib);
+//        Log.d("nottyprint", this.jsonBib);
 
         // parsing du json pour créer la liste et obtenir toutes les info
 
@@ -143,6 +142,12 @@ public class Bibliotheque {
             this.sortType = buJSON.getInt("sortType");
         }catch(Exception e){
             this.sortType = 0;
+        }
+
+        try {
+            this.currentDirectory = buJSON.getString("currentDirectory");
+        }catch(Exception e){
+            this.currentDirectory = "All";
         }
 
         try {
@@ -185,18 +190,93 @@ public class Bibliotheque {
         }
 
         if(directoriesJSON.length() == 0){
-            directories.add("");
+            addDirectory("All");
+            addDirectory("None");
         }
         else{
             for(int i =0; i<directoriesJSON.length(); i++){
                 String dirName = directoriesJSON.getString(i);
-                this.directories.add(dirName);
+                addDirectory(dirName);
             }
         }
 
 
-        noteItemList = copyRawList();
+        copyRawList();
+        showOnlyDirectory();
+        sortBy();
+    }
 
+
+    public void parseImport(String importJson) throws JSONException {
+
+        JSONObject buJSON = new JSONObject(importJson);
+        JSONArray notesJSON = null;
+        JSONArray directoriesJSON = null;
+
+
+        try {
+            notesJSON = buJSON.getJSONArray("notes");
+        }catch(Exception e){
+            notesJSON = new JSONArray();
+        }
+
+        try {
+            directoriesJSON = buJSON.getJSONArray("directories");
+        }catch(Exception e){
+            directoriesJSON = new JSONArray();
+        }
+
+        try {
+            this.version = buJSON.getString("version");
+        }catch(Exception e){
+            this.version = String.valueOf(R.string.notty_version);
+        }
+
+
+        for (int i = 0; i < notesJSON.length(); i++) {
+
+            JSONObject noteJSON = notesJSON.getJSONObject(i);
+
+            int id = noteJSON.getInt("id");
+            if(id != -1) {
+                String title = noteJSON.getString("title");
+                String content = noteJSON.getString("body");
+                String dateCreation = noteJSON.getString("dateCreation");
+                String dateModification = noteJSON.getString("dateModification");
+                String directory = noteJSON.getString("directory");
+                boolean favorite = noteJSON.getBoolean("favorite");
+                boolean is_locked = noteJSON.getBoolean("is_locked");
+
+                try {
+                    @SuppressLint("SimpleDateFormat")
+                    DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                    formatter.parse(dateCreation);
+                } catch (Exception e) {
+                    dateCreation += " 00:00:00";
+                }
+
+                try {
+                    @SuppressLint("SimpleDateFormat")
+                    DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                    formatter.parse(dateModification);
+                } catch (Exception e) {
+                    dateModification += " 00:00:00";
+                }
+
+                importNote(title, content, dateModification, directory, favorite, is_locked);
+            }
+        }
+
+        if(directoriesJSON.length() >= 1){
+            for(int i =0; i<directoriesJSON.length(); i++){
+                String dirName = directoriesJSON.getString(i);
+                addDirectory(dirName);
+            }
+        }
+
+
+        copyRawList();
+        showOnlyDirectory();
         sortBy();
     }
 
@@ -246,6 +326,18 @@ public class Bibliotheque {
 
         addNote(note);
     }
+
+    public void importNote(String title, String content, String dateCreation, String directory, boolean is_favorite, boolean is_locked){
+
+        LocalDateTime myDateObj = LocalDateTime.now();
+        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        String formattedDate = myDateObj.format(myFormatObj);
+
+        Note note = new Note(id_total, title, content, dateCreation, formattedDate, directory, is_favorite, is_locked);
+
+        addNote(note);
+    }
+
 
     /**
      *
@@ -323,9 +415,12 @@ public class Bibliotheque {
      * @param listToDelete
      */
     public void deletesNotes(List<Note> listToDelete){
+        int i;
         for(Note n : listToDelete){
-            n.delete();
+            i = getNotePos(n.getId());
+            noteItemListRaw.get(i).delete();
         }
+        save_notty_file();
     }
 
     /**
@@ -368,19 +463,29 @@ public class Bibliotheque {
             deleteDirectory(d);
         }
 
+        copyRawList();
         sortBy();
     }
 
-    public void showOnlyDirectory(String dir){
-        sortBy();
+    public void setCurrentDirectory(String dir){
+        currentDirectory = dir;
+        save_notty_file();
+    }
 
-        if(!dir.equals("All")){ // On se contente de tout afficher
+    public String getCurrentDirectory(){ return currentDirectory; }
+
+    private void showOnlyDirectory(){
+        copyRawList();
+
+        if(!currentDirectory.equals("All")){ // On se contente de tout afficher
             for(Note n : noteItemListRaw){
-                if(!n.getDirectory().equals(dir)){
+                if(!n.getDirectory().equals(currentDirectory)){
                     noteItemList.remove(n);
                 }
             }
         }
+
+        sortBy();
     }
 
     /**
@@ -418,20 +523,21 @@ public class Bibliotheque {
         save_notty_file();
     }
 
-    private ArrayList<Note> copyRawList(){
-        ArrayList<Note> newNoteList = new ArrayList<>(noteItemListRaw);
+    /**
+     * Liste affiché refresh
+     */
+    private void copyRawList(){
+        noteItemList = new ArrayList<>(noteItemListRaw);
 
         for(Note n : noteItemListRaw){
             if(n.getId() == -1)
-                newNoteList.remove(n);
+                noteItemList.remove(n);
         }
-
-        return newNoteList;
     }
 
     public void sortBy(){
 
-        noteItemList = copyRawList();
+//        noteItemList = copyRawList();
 
         switch (this.sortType){
             case 0: // titre
@@ -520,6 +626,7 @@ public class Bibliotheque {
         buJSON.put("id_total",this.id_total);
         buJSON.put("hashPassword",this.hashPassword);
         buJSON.put("sortType",this.sortType);
+        buJSON.put("currentDirectory",this.currentDirectory);
 
 
         // creation de la liste JSON des notes
@@ -568,13 +675,17 @@ public class Bibliotheque {
         }
     }
 
+    public String getNottyFile() throws JSONException {
+        return toJSON().toString();
+    }
+
     public void delete_notty_file(){
 
         this.context.getDir(FILENAME, Context.MODE_PRIVATE);
 
         JSONObject initFileJSON = null;
         try {
-            initFileJSON = new JSONObject("{ \"version\":\"1.0.0\", \"id_total\":0, \"hashPassword\":\"default\", \"sortType\":0, \"notes\":[], \"directories\":[\"All\",\"None\"] }");
+            initFileJSON = new JSONObject("{ \"version\":\""+String.valueOf(R.string.notty_version)+"\", \"id_total\":0, \"hashPassword\":\"default\", \"sortType\":0, \"currentDirectory\":\"All\", \"notes\":[], \"directories\":[\"All\",\"None\"] }");
 
             FileOutputStream initFile = this.context.openFileOutput(FILENAME, Context.MODE_PRIVATE);
             initFile.write(initFileJSON.toString().getBytes());

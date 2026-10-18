@@ -9,23 +9,48 @@
     <TextView
         android:id="@+id/id_options_home_btn_sort"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:paddingVertical="10dp"
         android:gravity="center"
         android:text="@string/sort"
         style="@style/styleOptionsHome_btn"/>
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/id_options_home_btn_export"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:paddingVertical="10dp"
-        android:text="TextView" />
+        android:gravity="center"
+        android:text="@string/optn_export"
+        style="@style/styleOptionsHome_btn"/>
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/id_options_home_btn_import"
         android:layout_width="match_parent"
+        android:height="50dp"
         android:paddingVertical="10dp"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:gravity="center"
+        android:text="@string/optn_import"
+        style="@style/styleOptionsHome_btn"/>
+
+    <TextView
+        android:id="@+id/id_options_home_btn_deleteAll"
+        android:layout_width="match_parent"
+        android:height="50dp"
+        android:paddingVertical="10dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/optn_deleteAll"
+        style="@style/styleOptionsHome_btn"/>
+
+    <TextView
+        android:id="@+id/id_options_home_btn_credits"
+        android:layout_width="match_parent"
+        android:height="50dp"
+        android:paddingVertical="10dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/credits"
+        style="@style/styleOptionsHome_btn"/>
 </LinearLayout>

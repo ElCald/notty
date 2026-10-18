@@ -16,4 +16,20 @@
     <string name="cancel">Annuler</string>
     <string name="none_dir">Sans répertoire</string>
     <string name="all_dir">Toutes les notes</string>
+    <string name="name">Nom</string>
+    <string name="optn_import">Importer</string>
+    <string name="optn_export">Exporter</string>
+    <string name="optn_deleteAll">Tout supprimer</string>
+    <string name="delete_bdd_warning">Attention !</string>
+    <string name="delete_bdd_message">Voulez-vous supprimer toutes les données ?</string>
+    <string name="optn_yes">Oui</string>
+    <string name="optn_no">Non</string>
+    <string name="canceled">Annulé</string>
+    <string name="delete_bdd_confirm">Données supprimées</string>
+    <string name="error_import">Erreur à l\'importation</string>
+    <string name="error">Erreur</string>
+    <string name="file_saved">Fichier sauvegardé</string>
+    <string name="error_file_not_found">Fichier non trouvé</string>
+    <string name="credits_text"><p>Créateur : Eliot Calderon </p><br />\n<p>Github : https://github.com/ElCald/notty </p><br />\n<p>Icons : Flaticon https://www.flaticon.com/fr/packs/essential-set-2</p></string>
+
 </resources>

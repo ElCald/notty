@@ -16,4 +16,21 @@
     <string name="cancel">Cancel</string>
     <string name="none_dir">No directory</string>
     <string name="all_dir">Everything</string>
+    <string name="name">Name</string>
+    <string name="optn_import">Import</string>
+    <string name="optn_export">Export</string>
+    <string name="optn_deleteAll">Delete all</string>
+    <string name="delete_bdd_warning">Warning !</string>
+    <string name="delete_bdd_message">Do you want to delete all the data ?</string>
+    <string name="optn_yes">Yes</string>
+    <string name="optn_no">No</string>
+    <string name="canceled">Canceled</string>
+    <string name="delete_bdd_confirm">Data deleted</string>
+    <string name="notty_version" translatable="false">1.0.0</string>
+    <string name="error_import">File import failed</string>
+    <string name="error">Error</string>
+    <string name="file_saved">File saved</string>
+    <string name="error_file_not_found">File not found</string>
+    <string name="credits" translatable="false">Credits</string>
+    <string name="credits_text"><p>Creator : Eliot Calderon </p> <br />  <hr />\n<p>Github : https://github.com/ElCald/notty</p> <br /> <hr />\n<p>Icons : Flaticon https://www.flaticon.com/fr/packs/essential-set-2</p></string>
 </resources>

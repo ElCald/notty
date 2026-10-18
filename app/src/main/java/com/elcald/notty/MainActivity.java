@@ -1,8 +1,12 @@
 package com.elcald.notty;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseBooleanArray;
@@ -23,6 +27,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -31,11 +37,15 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.invoke.LambdaConversionException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -54,9 +64,15 @@ public class MainActivity extends AppCompatActivity {
     private TextView btn_options_sort_title;
     private TextView btn_options_sort_dateCreation;
     private TextView btn_options_sort_dateModification;
+    private TextView btn_options_export;
+    private TextView btn_options_import;
     private TextView btn_options_sort_fav;
+    private TextView btn_options_deleteAll;
+    private TextView btn_options_credits;
     private Button btn_delete;
     private Toolbar home_toolbare;
+
+    private TextView home_toolbar_title;
     private LinearLayout home_footbar;
 
     private LinearLayout options_menu;
@@ -68,6 +84,57 @@ public class MainActivity extends AppCompatActivity {
     private Bibliotheque biblio;
 
     private View showedView = null;
+
+    private String currentDirectory = "All";
+
+    private String contentToExport = "";
+
+    private final ActivityResultLauncher<String> creerFichier = registerForActivityResult( new ActivityResultContracts.CreateDocument("text/plain"), uri -> {
+        if (uri == null) return; // l'utilisateur a annulé
+        ecrireDansUri(uri, contentToExport);
+    });
+
+    private void ecrireDansUri(Uri uri, String texte) {
+        try (OutputStream out = getContentResolver().openOutputStream(uri)) {
+            if (out == null) throw new IOException(String.valueOf(R.string.error_file_not_found));
+            out.write(texte.getBytes(StandardCharsets.UTF_8));
+            Toast.makeText(this, R.string.file_saved, Toast.LENGTH_SHORT).show();
+        } catch (IOException e) {
+            Toast.makeText(this, R.string.error + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private final ActivityResultLauncher<String[]> choisirFichier = registerForActivityResult(new ActivityResultContracts.OpenDocument(),uri -> {
+        if (uri == null) return; // l'utilisateur a annulé
+        String texte = lireDepuisUri(uri);
+        if (texte != null) { // action après avoir récup le fichier
+            try {
+                biblio.parseImport(texte);
+                finish();
+                startActivity(getIntent());
+            } catch (JSONException e) {
+                Toast.makeText(this, R.string.error_import, Toast.LENGTH_LONG).show();
+            }
+        }
+    });
+
+    private String lireDepuisUri(Uri uri) {
+        try (InputStream in = getContentResolver().openInputStream(uri)) {
+            if (in == null) throw new IOException(String.valueOf(R.string.error_file_not_found));
+
+            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+            byte[] data = new byte[4096];
+            int n;
+            while ((n = in.read(data)) != -1) {
+                buffer.write(data, 0, n);
+            }
+            return buffer.toString(StandardCharsets.UTF_8.name());
+        } catch (IOException e) {
+            Toast.makeText(this, R.string.error + e.getMessage(), Toast.LENGTH_LONG).show();
+            return null;
+        }
+    }
+
 
 
     @SuppressLint({"MissingInflatedId", "CutPasteId"})
@@ -82,12 +149,15 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-
+        MainActivity activity = this;
 
         // Gestion toolbar
         home_toolbare = (Toolbar) findViewById(R.id.id_home_toolbar);
         home_toolbare.setTitle("");
         setSupportActionBar(home_toolbare);
+
+        home_toolbar_title = findViewById(R.id.textView_TBar_titre);
+        home_toolbar_title.setText(R.string.app_name);
 
         home_footbar = findViewById(R.id.id_home_footbar);
 
@@ -102,7 +172,6 @@ public class MainActivity extends AppCompatActivity {
         } catch (JSONException | FileNotFoundException e) {
             throw new RuntimeException(e);
         }
-
 
 
 //        Log.d("nottyprint", biblio.toString());
@@ -123,14 +192,6 @@ public class MainActivity extends AppCompatActivity {
 */
 
 
-        // click dans la fenêtre pour tout fermer
-//        findViewById(R.id.main).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                options_menu.setVisibility(View.INVISIBLE);
-//                options_menu_sortList.setVisibility(View.INVISIBLE);
-//            }
-//        });
 
 
 
@@ -240,27 +301,87 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        this.btn_options_export = (TextView)findViewById(R.id.id_options_home_btn_export);
+        btn_options_export.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    contentToExport = biblio.getNottyFile();
+                } catch (JSONException e) {
+                    contentToExport = "Erreur d'export";
+                }
+
+                creerFichier.launch("nottybdd");          // nom proposé
+            }
+        });
+
+
+        this.btn_options_import = (TextView)findViewById(R.id.id_options_home_btn_import);
+        btn_options_import.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                choisirFichier.launch(new String[]{"text/plain"});
+            }
+        });
 
 
 
+        // Bouton pour supprimer la bdd
+        this.btn_options_deleteAll = (TextView)findViewById(R.id.id_options_home_btn_deleteAll);
+        btn_options_deleteAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                AlertDialog.Builder popup_delete_nottyfile = new AlertDialog.Builder(activity);
+                popup_delete_nottyfile.setTitle(R.string.delete_bdd_warning);
+
+                popup_delete_nottyfile.setMessage(R.string.delete_bdd_message);
+
+                popup_delete_nottyfile.setPositiveButton(R.string.optn_yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        biblio.delete_notty_file();
+
+                        finish();
+                        startActivity(getIntent());
+
+                        Toast.makeText(getApplicationContext(), R.string.delete_bdd_confirm, Toast.LENGTH_SHORT).show();
+                    }
+                });//fin positiveButton
+
+                popup_delete_nottyfile.setNegativeButton(R.string.optn_no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Toast.makeText(getApplicationContext(), R.string.canceled, Toast.LENGTH_SHORT).show();
+                    }
+                });//fin negative
+
+                popup_delete_nottyfile.show();
 
 
+            }
+        });
 
-        // Bouton pour supprimer la bdd une note
-//        this.btn_delete = (Button)findViewById(R.id.id_home_btn_delete);
-//        btn_delete.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                biblio.delete_notty_file();
-//
-//                Intent mainActivity = new Intent(getApplicationContext(), MainActivity.class);
-//                startActivity(mainActivity);
-//                finish();
-//            }
-//        });
+        this.btn_options_credits = (TextView)findViewById(R.id.id_options_home_btn_credits);
+        btn_options_credits.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Popup_credits popup_credits = new Popup_credits(activity);
+
+                popup_credits.getBtn_close().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        popup_credits.dismiss();
+                    }
+                });
+
+                popup_credits.build();
+            }
+        });
 
 
-        NoteItemAdapter noteItemAdapter = new NoteItemAdapter(this, biblio.get());()
+        NoteItemAdapter noteItemAdapter = new NoteItemAdapter(this, biblio.get());
 
         // Récup la gridview et création des item dans le home
         GridView noteGridView = findViewById(R.id.id_home_gridv_note);
@@ -316,11 +437,54 @@ public class MainActivity extends AppCompatActivity {
 
 
                     // Appliquez votre action à selectedNotes
-                    if(item.getItemId() == R.id.id_menu_note_tile_action_supprimer){
-                        biblio.deletesNotes(selectedNotes);
+                    if(item.getItemId() == R.id.id_menu_note_tile_action_supprimer){ // Suppression des notes
+
+                        AlertDialog.Builder popup_delete_nottyfile = new AlertDialog.Builder(activity);
+                        popup_delete_nottyfile.setTitle(R.string.delete_bdd_warning);
+
+                        popup_delete_nottyfile.setMessage(R.string.delete_bdd_message);
+
+                        popup_delete_nottyfile.setPositiveButton(R.string.optn_yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                                biblio.deletesNotes(selectedNotes);
+
+                                finish();
+                                startActivity(getIntent());
+
+                                Toast.makeText(getApplicationContext(), R.string.delete_bdd_confirm, Toast.LENGTH_SHORT).show();
+                            }
+                        });//fin positiveButton
+
+                        popup_delete_nottyfile.setNegativeButton(R.string.optn_no, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Toast.makeText(getApplicationContext(), R.string.canceled, Toast.LENGTH_SHORT).show();
+                            }
+                        });//fin negative
+
+                        popup_delete_nottyfile.show();
                     }
-                    else if(item.getItemId() == R.id.id_menu_note_tile_action_directory){
-                        Log.d("nottyprint", "dossier");
+                    else if(item.getItemId() == R.id.id_menu_note_tile_action_directory){ // ajout dans un dossier
+                        Popup_selectDirectory popup_selectDirectory = new Popup_selectDirectory(activity, selectedNotes);
+
+                        popup_selectDirectory.getBtn_close().setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                popup_selectDirectory.dismiss();
+                            }
+                        });
+
+                        popup_selectDirectory.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                            @Override
+                            public void onDismiss(DialogInterface dialog) {
+                                finish();
+                                startActivity(getIntent());
+                            }
+                        });
+
+                        popup_selectDirectory.build();
                     }
 
                     mode.finish(); // quitte le mode sélection

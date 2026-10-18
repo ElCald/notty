@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/id_adapter_select_directory_title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="TextView"
+        tools:ignore="MissingConstraints"
+        android:gravity="center"
+        style="@style/styleOptionsPopup_add"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
