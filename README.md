@@ -1,5 +1,7 @@
 # Notty
 
+[![Download notty](https://img.shields.io/badge/Download-notty)](https://github.com/ElCald/notty/releases/download/v1.0.0/Notty.apk)
+
 Simple note pad application to take quick notes.
 
 <img width="192" height="192" alt="ic_launcher" src="https://github.com/user-attachments/assets/8da9e1bc-9c47-4eae-887e-3140e06f423a" />
