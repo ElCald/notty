@@ -47,6 +47,24 @@
 
     </LinearLayout>
 
+
+<!--    <LinearLayout-->
+<!--        android:id="@+id/id_home_options"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="vertical"-->
+<!--        android:visibility="invisible"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/id_home_footbar"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent">-->
+
+<!--        <ListView-->
+<!--            android:id="@+id/id_settings_listview"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content" />-->
+
+<!--    </LinearLayout>-->
+
     <include
         android:id="@+id/id_home_options"
         layout="@layout/options_home"
@@ -57,6 +75,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
 
     <include
         android:id="@+id/id_home_options_sortlist"

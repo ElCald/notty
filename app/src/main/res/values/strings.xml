@@ -7,4 +7,13 @@
     <string name="sort_dateCreation">Date of creation</string>
     <string name="sort_dateModification">Date of modification</string>
     <string name="sort_fav">Favorites</string>
+    <string name="directory">Directory</string>
+    <string name="add">Add</string>
+    <string name="validate">Validate</string>
+    <string name="back">Back</string>
+    <string name="save">Save</string>
+    <string name="ok" translatable="false">ok</string>
+    <string name="cancel">Cancel</string>
+    <string name="none_dir">No directory</string>
+    <string name="all_dir">Everything</string>
 </resources>

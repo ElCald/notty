@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Note implements Serializable {
-    private final int id;
+    private int id;
     private String title;
     private String content;
     private final String dateCreation;
@@ -17,6 +17,7 @@ public class Note implements Serializable {
     private String directory;
     private boolean favorite;
     private boolean is_locked;
+    private boolean is_selected;
 
 
     // constructeur
@@ -30,6 +31,7 @@ public class Note implements Serializable {
         this.directory = "";
         this.favorite = false;
         this.is_locked = false;
+        this.is_selected = false;
     }
 
     public Note(int id, String title, String content, String dateCreation){
@@ -41,6 +43,7 @@ public class Note implements Serializable {
         this.directory = "";
         this.favorite = false;
         this.is_locked = false;
+        this.is_selected = false;
     }
 
     public Note(int id, String title, String content, String dateCreation, String dateModification, String directory, boolean favorite, boolean is_locked){
@@ -52,6 +55,7 @@ public class Note implements Serializable {
         this.directory = directory;
         this.favorite = favorite;
         this.is_locked = is_locked;
+        this.is_selected = is_locked;
     }
 
 
@@ -66,6 +70,7 @@ public class Note implements Serializable {
     public String getDirectory() { return directory; }
     public boolean getFavorite() { return favorite; }
     public boolean getIsLocked() { return is_locked; }
+    public boolean getIsSelected() { return is_selected; }
 
     public Date getDateFormated(String dateString) throws ParseException {
         try {
@@ -95,5 +100,8 @@ public class Note implements Serializable {
     public void lock() { this.is_locked = true; }
     public void unlock() { this.is_locked = false; }
     public void swapLock() { this.is_locked = !this.is_locked; }
+    public void select() { this.is_selected = true; }
+    public void unselect() { this.is_selected = false; }
+    public void delete() { this.id = -1; }
 
 }

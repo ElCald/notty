@@ -20,13 +20,13 @@
         style="@style/styleFootbar_directoryBtn"/>
 
 
-    <ImageView
-        android:id="@+id/id_home_toolbar_btn_search"
-        android:layout_width="25dp"
-        android:layout_height="match_parent"
-        android:src="@drawable/recherche"
-        android:layout_marginHorizontal="20dp"
-        style="@style/styleFootbar_searchBtn"/>
+<!--    <ImageView-->
+<!--        android:id="@+id/id_home_toolbar_btn_search"-->
+<!--        android:layout_width="25dp"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:src="@drawable/recherche"-->
+<!--        android:layout_marginHorizontal="20dp"-->
+<!--        style="@style/styleFootbar_searchBtn"/>-->
 
     <ImageView
         android:id="@+id/id_home_toolbar_btn_addNote"

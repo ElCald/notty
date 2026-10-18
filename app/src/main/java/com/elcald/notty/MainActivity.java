@@ -5,12 +5,20 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.SparseBooleanArray;
+import android.view.ActionMode;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +35,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.invoke.LambdaConversionException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import org.json.*;
@@ -46,11 +57,17 @@ public class MainActivity extends AppCompatActivity {
     private TextView btn_options_sort_fav;
     private Button btn_delete;
     private Toolbar home_toolbare;
+    private LinearLayout home_footbar;
 
     private LinearLayout options_menu;
     private LinearLayout options_menu_sortList;
 
+
+    private List<String> listSettings = new ArrayList<>();
+
     private Bibliotheque biblio;
+
+    private View showedView = null;
 
 
     @SuppressLint({"MissingInflatedId", "CutPasteId"})
@@ -71,6 +88,8 @@ public class MainActivity extends AppCompatActivity {
         home_toolbare = (Toolbar) findViewById(R.id.id_home_toolbar);
         home_toolbare.setTitle("");
         setSupportActionBar(home_toolbare);
+
+        home_footbar = findViewById(R.id.id_home_footbar);
 
         // Menus
         options_menu = (LinearLayout) findViewById(R.id.id_home_options);
@@ -105,13 +124,15 @@ public class MainActivity extends AppCompatActivity {
 
 
         // click dans la fenêtre pour tout fermer
-        findViewById(R.id.main).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                options_menu.setVisibility(View.INVISIBLE);
-                options_menu_sortList.setVisibility(View.INVISIBLE);
-            }
-        });
+//        findViewById(R.id.main).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                options_menu.setVisibility(View.INVISIBLE);
+//                options_menu_sortList.setVisibility(View.INVISIBLE);
+//            }
+//        });
+
+
 
 
         // Bouton pour aller dans le menu des répertoires
@@ -146,6 +167,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 options_menu.setVisibility((options_menu.getVisibility()-1)%2);
                 options_menu_sortList.setVisibility(View.INVISIBLE);
+                showedView = options_menu;
             }
         });
 
@@ -158,6 +180,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 options_menu.setVisibility(View.INVISIBLE);
                 options_menu_sortList.setVisibility(View.VISIBLE);
+                showedView = options_menu_sortList;
             }
         });
 
@@ -169,9 +192,11 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 options_menu_sortList.setVisibility(View.INVISIBLE);
                 biblio.setSortType(biblio.SORT_TITLE);
+                showedView = null;
                 Intent mainActivity = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(mainActivity);
                 finish();
+
             }
         });
 
@@ -181,6 +206,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 options_menu_sortList.setVisibility(View.INVISIBLE);
                 biblio.setSortType(biblio.SORT_DATECREATION);
+                showedView = null;
                 Intent mainActivity = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(mainActivity);
                 finish();
@@ -192,6 +218,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 options_menu_sortList.setVisibility(View.INVISIBLE);
+                showedView = null;
                 biblio.setSortType(biblio.SORT_DATEMODIFICATION);
                 Intent mainActivity = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(mainActivity);
@@ -205,6 +232,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 options_menu_sortList.setVisibility(View.INVISIBLE);
                 biblio.setSortType(biblio.SORT_FAV);
+                showedView = null;
                 Intent mainActivity = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(mainActivity);
                 finish();
@@ -232,10 +260,107 @@ public class MainActivity extends AppCompatActivity {
 //        });
 
 
+        NoteItemAdapter noteItemAdapter = new NoteItemAdapter(this, biblio.get());()
+
         // Récup la gridview et création des item dans le home
         GridView noteGridView = findViewById(R.id.id_home_gridv_note);
-        noteGridView.setAdapter(new NoteItemAdapter(this, biblio.get()));
+        noteGridView.setAdapter(noteItemAdapter);
+
+
+        noteGridView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE_MODAL);
+
+
+        noteGridView.setOnItemClickListener((parent, view, position, id) -> {
+            Note item = (Note)parent.getItemAtPosition(position);
+
+            Intent readNoteActivity = new Intent(this, ReadNoteActivity.class);
+            startActivity(readNoteActivity.putExtra("id_note", item.getId()));
+            finish();
+        });
+
+
+        noteGridView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
+
+            @Override
+            public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
+                // Appelée à chaque (dé)sélection : on met à jour le titre
+//                mode.setTitle(noteGridView.getCheckedItemCount() + "");
+                noteItemAdapter.notifyDataSetChanged(); // getView() relit l'état coché
+            }
+
+            @Override
+            public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                getMenuInflater().inflate(R.menu.menu_selection_note_tile, menu);
+                return true;
+            }
+
+            @Override
+            public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                return false;
+            }
+
+            @Override
+            public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                // au clique sur la corbeille
+                if (item.getItemId() == R.id.id_menu_note_tile_action_supprimer || item.getItemId() == R.id.id_menu_note_tile_action_directory) {
+                    SparseBooleanArray checked = noteGridView.getCheckedItemPositions();
+                    List<Note> selectedNotes = new ArrayList<>();
+
+
+                    // on récupère les notes séléctionnées
+                    for (int i = 0; i < checked.size(); i++) {
+                        if (checked.valueAt(i)) {
+                            selectedNotes.add(noteItemAdapter.getItem(checked.keyAt(i)));
+                        }
+                    }
+
+
+                    // Appliquez votre action à selectedNotes
+                    if(item.getItemId() == R.id.id_menu_note_tile_action_supprimer){
+                        biblio.deletesNotes(selectedNotes);
+                    }
+                    else if(item.getItemId() == R.id.id_menu_note_tile_action_directory){
+                        Log.d("nottyprint", "dossier");
+                    }
+
+                    mode.finish(); // quitte le mode sélection
+                    return true;
+                }
+
+                return false;
+            }
+
+            @Override
+            public void onDestroyActionMode(ActionMode mode) {
+                // Les items reprennent automatiquement leur couleur normale
+                noteItemAdapter.notifyDataSetChanged();
+            }
+        });
+
+
 
 
     }
+
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+
+            if (showedView != null && !isPointInsideView(showedView, ev.getRawX(), ev.getRawY()) && !isPointInsideView(home_footbar, ev.getRawX(), ev.getRawY())) {
+                options_menu.setVisibility(View.INVISIBLE);
+                options_menu_sortList.setVisibility(View.INVISIBLE);
+                biblio.unselectAll();
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+
+    private boolean isPointInsideView(View view, float rawX, float rawY) {
+        int[] location = new int[2];
+        view.getLocationOnScreen(location);
+        return rawX >= location[0] && rawX <= location[0] + view.getWidth()
+                && rawY >= location[1] && rawY <= location[1] + view.getHeight();
+    }
+
 }

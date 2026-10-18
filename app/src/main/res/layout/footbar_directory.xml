@@ -9,7 +9,7 @@
     style="@style/styleFootbar">
 
     <ImageView
-        android:id="@+id/id_directory_toolbar_btn_addNote"
+        android:id="@+id/id_directory_toolbar_btn_addDirectory"
         android:layout_width="30dp"
         android:layout_height="match_parent"
         android:src="@drawable/ajouter"

@@ -30,6 +30,7 @@ public class ReadNoteActivity extends AppCompatActivity {
     private TextView title_field = null;
     private TextView body_field = null;
     private TextView dateModif_field = null;
+    private TextView directory_field = null;
     private ImageView btn_backHome = null;
     private ImageView btn_modify = null;
     private ScrollView scrollView_content = null;
@@ -60,6 +61,7 @@ public class ReadNoteActivity extends AppCompatActivity {
         this.title_field = findViewById(R.id.id_read_text_title);
         this.body_field = findViewById(R.id.id_read_text_body);
         this.dateModif_field = findViewById(R.id.id_read_text_dateModif);
+        this.directory_field = findViewById(R.id.id_read_text_Directory);
 
         this.btn_backHome = findViewById(R.id.id_read_btn_backHome);
         this.btn_modify = findViewById(R.id.id_read_btn_modify);
@@ -79,6 +81,13 @@ public class ReadNoteActivity extends AppCompatActivity {
             title_field.setText(note.getTitle());
             body_field.setText(note.getContent());
             dateModif_field.setText(note.getDateModificationShort());
+
+            if(!note.getDirectory().equals("None")){
+                directory_field.setText(note.getDirectory());
+            }
+            else{
+                directory_field.setText("");
+            }
         }
         else{
             id_note = -1;

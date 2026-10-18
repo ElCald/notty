@@ -17,6 +17,10 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
+    <style name="styleNoteTile_selected">
+        <item name="android:backgroundTint">@color/cream</item>
+    </style>
+
     <style name="styleNoteTile_fav">
         <item name="android:tint">@color/dark_cream</item>
     </style>
@@ -28,6 +32,16 @@
 
 
     <style name="styleDirectoryTile">
+        <item name="android:background">@color/dark_cream</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="styleDirectoryTile_selected">
+        <item name="android:background">@color/cream</item>
+    </style>
+
+
+    <style name="styleSettingsTile">
         <item name="android:backgroundTint">@color/dark_cream</item>
         <item name="android:textColor">@color/black</item>
     </style>

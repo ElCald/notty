@@ -195,10 +195,9 @@ public class Bibliotheque {
         }
 
 
-        noteItemList = new ArrayList<>(noteItemListRaw);
+        noteItemList = copyRawList();
 
         sortBy();
-
     }
 
 
@@ -310,21 +309,78 @@ public class Bibliotheque {
     }
 
     /**
-     * Suppression d'une note selon son id
+     * Suppression d'une note selon son id dans la bdd
       * @param id Id note
      */
-    public void deleteNote(int id){
+    private void deleteNoteForce(int id){
         int i = getNotePos(id);
         noteItemListRaw.remove(i);
+        save_notty_file();
+    }
+
+    /**
+     * Suppression d'une note selon son id, en remplaçant l'id par -1 pour faire un rollback
+     * @param listToDelete
+     */
+    public void deletesNotes(List<Note> listToDelete){
+        for(Note n : listToDelete){
+            n.delete();
+        }
+    }
+
+    /**
+     * Ajout de notes dans un répertoire
+     * @param listToDir
+     * @param dir
+     */
+    public void addNotesDirectory(List<Note> listToDir, String dir){
+        for(Note n : listToDir){
+            n.setDirectory(dir);
+        }
     }
 
     public void addDirectory(String dir){
         if(!directories.contains(dir))
             directories.add(dir);
+        save_notty_file();
     }
 
     public void deleteDirectory(String dir){
-        directories.remove(dir);
+        if(!dir.equals("None") && !dir.equals("All")) {
+            directories.remove(dir);
+
+            for (Note n : noteItemListRaw) {
+                if (n.getDirectory().equals(dir)) {
+                    n.setDirectory("None");
+                }
+            }
+        }
+
+        save_notty_file();
+    }
+
+    /**
+     * Suppression des répertoires et changement pour les notes
+     * @param listToDelete
+     */
+    public void deletesDirectories(List<String> listToDelete){
+        for(String d : listToDelete){
+            deleteDirectory(d);
+        }
+
+        sortBy();
+    }
+
+    public void showOnlyDirectory(String dir){
+        sortBy();
+
+        if(!dir.equals("All")){ // On se contente de tout afficher
+            for(Note n : noteItemListRaw){
+                if(!n.getDirectory().equals(dir)){
+                    noteItemList.remove(n);
+                }
+            }
+        }
     }
 
     /**
@@ -342,6 +398,7 @@ public class Bibliotheque {
     public List<String> getDirectories(){
         return directories;
     }
+
 
     /**
      *
@@ -361,9 +418,20 @@ public class Bibliotheque {
         save_notty_file();
     }
 
+    private ArrayList<Note> copyRawList(){
+        ArrayList<Note> newNoteList = new ArrayList<>(noteItemListRaw);
+
+        for(Note n : noteItemListRaw){
+            if(n.getId() == -1)
+                newNoteList.remove(n);
+        }
+
+        return newNoteList;
+    }
+
     public void sortBy(){
 
-        noteItemList = new ArrayList<>(noteItemListRaw);
+        noteItemList = copyRawList();
 
         switch (this.sortType){
             case 0: // titre
@@ -443,7 +511,7 @@ public class Bibliotheque {
     }
 
     // json
-    public JSONObject toJSON() throws JSONException {
+    private JSONObject toJSON() throws JSONException {
         JSONObject buJSON = new JSONObject();
         JSONArray notesJSON = new JSONArray();
         JSONArray directoriesJSON = new JSONArray();
@@ -506,7 +574,7 @@ public class Bibliotheque {
 
         JSONObject initFileJSON = null;
         try {
-            initFileJSON = new JSONObject("{ \"version\":\"1.0.0\", \"id_total\":0, \"hashPassword\":\"default\", \"sortType\":0, \"notes\":[], \"directories\":[] }");
+            initFileJSON = new JSONObject("{ \"version\":\"1.0.0\", \"id_total\":0, \"hashPassword\":\"default\", \"sortType\":0, \"notes\":[], \"directories\":[\"All\",\"None\"] }");
 
             FileOutputStream initFile = this.context.openFileOutput(FILENAME, Context.MODE_PRIVATE);
             initFile.write(initFileJSON.toString().getBytes());
@@ -514,6 +582,13 @@ public class Bibliotheque {
             initFile.close();
         } catch (JSONException | IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+
+    public void unselectAll(){
+        for(Note n : noteItemList){
+            n.unselect();
         }
     }
 

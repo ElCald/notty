@@ -8,4 +8,12 @@
     <string name="sort_dateCreation">Date de création</string>
     <string name="sort_dateModification">Date de modification</string>
     <string name="sort_fav">Favoris</string>
+    <string name="directory">Dossier</string>
+    <string name="add">Ajouter</string>
+    <string name="validate">Valider</string>
+    <string name="back">Retour</string>
+    <string name="save">Sauvegarder</string>
+    <string name="cancel">Annuler</string>
+    <string name="none_dir">Sans répertoire</string>
+    <string name="all_dir">Toutes les notes</string>
 </resources>

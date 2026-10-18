@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- Base application theme. -->
     <style name="Base.Theme.Notty" parent="Theme.AppCompat.NoActionBar">
         <!-- Customize your dark theme here. -->
@@ -20,6 +20,11 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+
+    <style name="styleNoteTile_selected">
+        <item name="android:backgroundTint">@color/lighter_grey</item>
+    </style>
+
     <style name="styleNoteTile_fav">
         <item name="android:tint">@color/dark_cream</item>
     </style>
@@ -30,6 +35,16 @@
 
 
     <style name="styleDirectoryTile">
+        <item name="android:background">@color/light_grey</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="styleDirectoryTile_selected">
+        <item name="android:background">@color/lighter_grey</item>
+    </style>
+
+
+    <style name="styleSettingsTile">
         <item name="android:background">@color/light_grey</item>
         <item name="android:textColor">@color/white</item>
     </style>
